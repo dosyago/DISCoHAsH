@@ -2,9 +2,9 @@
   "name": "bebb4185",
   "version": "1.0.4",
   "description": "A super-fast SMHasher-passing non-cryptographic hash function.",
-  "main": "index.js",
+  "main": "js/index.js",
   "scripts": {
-    "test": "node -r esm test.js"
+    "test": "node -r esm js/test.js"
   },
   "repository": {
     "type": "git",
