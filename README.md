@@ -19,17 +19,17 @@ Passes all SMHasher tests.
 Use the c-code from this repository, or, for a JS implementation:
 
 ```console
-npm i --save discohash
+npm i --save bebb4185
 ```
 
 Use in Node.JS:
 
 ```js
-import {disocash} from 'discohash'
+import {disocash} from 'bebb4185'
 ```
 
 Or using Snowpack as a webmodule:
 
 ```js
-import {discohash} from './webmodules/discohash.js';
+import {discohash} from './webmodules/bebb4185.js';
 ```
