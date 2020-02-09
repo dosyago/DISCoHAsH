@@ -9,6 +9,6 @@ test();
 
 function test() {
   tests.forEach(([k, s]) => {
-    console.log(k, s, discohash(k, s));
+    console.log(`${k}, ${s}, 0x${discohash(k, s).toString(16).padStart(16,'0')}`);
   });
 }
