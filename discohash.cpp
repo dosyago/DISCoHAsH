@@ -37,30 +37,12 @@ uint64_t *ds = (uint64_t *)disco_buf;
       return v; 
     }
 
-    FORCE_INLINE uint64_t rot32( uint64_t v, int n) 
-    {
-      n = n & 31U;
-      if (n)
-          v = (v >> n) | (v << (64-n));
-      return v; 
-    }
-
     FORCE_INLINE uint8_t rot8( uint8_t v, int n) 
     {
       n = n & 7U;
       if (n)
           v = (v >> n) | (v << (8-n));
       return v; 
-    }
-
-    FORCE_INLINE void mixA()
-    {
-      int i = ds32[0] & 1;
-      int j = ds32[3] & 3;
-
-      ds[0] = rot(ds[0], ds[i]);
-      ds[i] *= (P % (ds32[j] + 1) + 1);
-      ds[1] += ds32[j];
     }
 
     FORCE_INLINE void mix(const int A)
@@ -159,7 +141,6 @@ uint64_t *ds = (uint64_t *)disco_buf;
       const uint8_t output[STATE] = {0};
       uint64_t *h = (uint64_t *)output;
 
-      //h[0] = ds[1];
       h[0] = ds[2];
       h[1] = ds[3];
 
