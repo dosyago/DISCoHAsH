@@ -22,3 +22,14 @@ Use the c-code from this repository, or, for a JS implementation:
 npm i --save discohash
 ```
 
+Use in Node.JS:
+
+```js
+import {disocash} from 'discohash'
+```
+
+Or using Snowpack as a webmodule:
+
+```js
+import {discohash} from './webmodules/discohash.js';
+```
