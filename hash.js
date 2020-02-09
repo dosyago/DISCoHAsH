@@ -12,10 +12,10 @@ const ds8 = new Uint8Array(disco_buf);
 const ds32 = new Uint32Array(disco_buf);
 const ds = new BigUint64Array(disco_buf);
 
-function rot( v, n = 0 ) {
-	n = n & 63;
+function rot( v, n = 0n ) {
+	n = n & 63n;
 	if (n) {
-		v = (v >> n) | (v << (64-n));
+		v = (v >> n) | (v << (64n-n));
 	}
 	return v; 
 }
@@ -28,17 +28,29 @@ function rot8( v, n = 0 ) {
 	return v; 
 }
 
+function mix(A = 0) {
+	const B = A+1;
+	ds[A] *= P;
+	ds[A] = rot(ds[A], 23);
+	ds[A] *= Q;
+	
+	ds[B] ^= ds[A];
 
+	ds[B] *= P;
+	ds[B] = rot(ds[B], 23);
+	ds[B] *= Q;
+}
 
 function round( m64, m8 ) {
-	let index = 0;
-	let sindex = 0;
+	const len = m8.length;
+	let index = 0n;
 	let counter = 0xfaccadaccad09997n;
+	let sindex = 0;
 	let counter8 = 137;
 
 	for( let Len = len >> 3; index < Len; index++) {
-		ds[sindex] += rot(m64[index] + index + counter + 1, 23);
-		counter += ~m64[index] + 1;
+		ds[sindex] += rot(m64[index] + index + counter + 1n, 23n);
+		counter += ~m64[index] + 1n;
 		if ( sindex == HSTATE64M ) {
 			mix(0);
 		} else if ( sindex == STATE64M ) {
@@ -50,7 +62,7 @@ function round( m64, m8 ) {
 
 	mix(1);
 
-	index <<= 3;
+	index <<= 3n;
 	sindex = index&(STATEM);
 	for( ; index < len; index++) {
 		ds8[sindex] += rot8(m8[index] + index + counter8 + 1, 23);
