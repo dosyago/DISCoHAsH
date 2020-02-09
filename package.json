@@ -1,6 +1,6 @@
 {
   "name": "bebb4185",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A super-fast SMHasher-passing non-cryptographic hash function.",
   "main": "index.js",
   "scripts": {
