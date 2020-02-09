@@ -33,3 +33,5 @@ Or using Snowpack as a webmodule:
 ```js
 import {discohash} from './webmodules/bebb4185.js';
 ```
+
+**Note:** JS implementation is currently WIP.
