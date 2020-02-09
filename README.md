@@ -14,3 +14,11 @@ Passes all SMHasher tests.
 
 *Also known as*: **BEBB4185**
 
+## Using
+
+Use the c-code from this repository, or, for a JS implementation:
+
+```console
+npm i --save discohash
+```
+
