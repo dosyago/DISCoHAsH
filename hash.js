@@ -12,8 +12,59 @@ const ds8 = new Uint8Array(disco_buf);
 const ds32 = new Uint32Array(disco_buf);
 const ds = new BigUint64Array(disco_buf);
 
-function round( m64, m8 ) {
+function rot( v, n = 0 ) {
+	n = n & 63;
+	if (n) {
+		v = (v >> n) | (v << (64-n));
+	}
+	return v; 
+}
 
+function rot8( v, n = 0 ) {
+	n = n & 7;
+	if (n) {
+		v = (v >> n) | (v << (8-n));
+	}
+	return v; 
+}
+
+
+
+function round( m64, m8 ) {
+	let index = 0;
+	let sindex = 0;
+	let counter = 0xfaccadaccad09997n;
+	let counter8 = 137;
+
+	for( let Len = len >> 3; index < Len; index++) {
+		ds[sindex] += rot(m64[index] + index + counter + 1, 23);
+		counter += ~m64[index] + 1;
+		if ( sindex == HSTATE64M ) {
+			mix(0);
+		} else if ( sindex == STATE64M ) {
+			mix(2);
+			sindex = -1;
+		}
+		sindex++;
+	}
+
+	mix(1);
+
+	index <<= 3;
+	sindex = index&(STATEM);
+	for( ; index < len; index++) {
+		ds8[sindex] += rot8(m8[index] + index + counter8 + 1, 23);
+		counter8 += ~m8[sindex] + 1;
+		mix(index%STATE64M);
+		if ( sindex >= STATEM ) {
+			sindex = -1;
+		}
+		sindex++;
+	}
+
+	mix(0);
+	mix(1);
+	mix(2);
 }
 
 export function discohash( key = '', seed = 0 ) {
