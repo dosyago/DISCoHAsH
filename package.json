@@ -1,0 +1,27 @@
+{
+  "name": "bebb4185",
+  "version": "1.1.0",
+  "description": "A super-fast SMHasher-passing non-cryptographic hash function.",
+  "main": "js/index.js",
+  "scripts": {
+    "test": "node -r esm js/test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cris691/discohash.git"
+  },
+  "keywords": [
+    "smhasher",
+    "hash",
+    "fast"
+  ],
+  "author": "@dosy",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/cris691/discohash/issues"
+  },
+  "homepage": "https://github.com/cris691/discohash#readme",
+  "dependencies": {
+    "esm": "^3.2.25"
+  }
+}
