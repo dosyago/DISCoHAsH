@@ -43,7 +43,7 @@ const hash = discohash(string_or_typed_array_key, optional_seed);
 ## JS Implementation
 
 - The JS Implementation produces the same value hashes as the C++ implementation.
-- The JS implementation is ~ 1500x slower than the C++ implementation.
+- The JS implementation is ~ 1000x slower than the C++ implementation.
 - This is probably because of the use of BigInts to stand in for `uint64_t`
 - It's possible to implement a 64-bit mult using 32-bit view which would remove the need for BigInt. I have no plan to do this.
 
