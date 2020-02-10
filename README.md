@@ -25,7 +25,7 @@ npm i --save bebb4185
 Use in Node.JS:
 
 ```js
-import {disocash} from 'bebb4185'
+import {discohash} from 'bebb4185'
 ```
 
 Or using Snowpack as a webmodule:
