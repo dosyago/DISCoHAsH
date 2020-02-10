@@ -5,7 +5,7 @@ const tests = [
   [ 'xyz999', 2 ]
 ];
 
-test();
+//test();
 smhasher_verification_value();
 
 function test() {
@@ -44,7 +44,7 @@ function smhasher_verification_value() {
 
 		const seed = 256-i;
 
-		hout[0] = discohash(key.slice(0,i+1), seed );
+		hout[0] = discohash(key.slice(0,i), seed );
 
 		hashes.set( hash, i*hashbytes );
 	}

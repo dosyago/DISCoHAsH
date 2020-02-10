@@ -51,6 +51,7 @@ function mix(A = 0) {
 }
 
 function round( m64, m8, len ) {
+  //console.log(`rds0 = 0x${ds[0].toString(16).padStart(16,'0')} 0x${ds[1].toString(16).padStart(16,'0')} 0x${ds[2].toString(16).padStart(16,'0')} 0x${ds[3].toString(16).padStart(16,'0')}`);
 	let index = 0;
 	let sindex = 0;
 	C[0] = 0xfaccadaccad09997n;
@@ -77,21 +78,26 @@ function round( m64, m8, len ) {
 
 	index <<= 3;
 	sindex = index&(BSTATEM);
+  //console.log(`rds3 = 0x${ds[0].toString(16).padStart(16,'0')} 0x${ds[1].toString(16).padStart(16,'0')} 0x${ds[2].toString(16).padStart(16,'0')} 0x${ds[3].toString(16).padStart(16,'0')}`);
+  //console.log(index,len);
 	for( ; index < len; index++) {
 		T8[0] = m8[index] + index + C8[0] + 1;
     ds8[sindex] += rot8(T8[0], 23);
 		T8[0] = ~m8[sindex] + 1;
     C8[0] += T8[0];
+    //console.log(`rds4 = 0x${ds[0].toString(16).padStart(16,'0')} 0x${ds[1].toString(16).padStart(16,'0')} 0x${ds[2].toString(16).padStart(16,'0')} 0x${ds[3].toString(16).padStart(16,'0')}`);
 		mix(index%STATE64M);
 		if ( sindex >= BSTATEM ) {
 			sindex = -1;
 		}
 		sindex++;
+    //console.log(`rds5 = 0x${ds[0].toString(16).padStart(16,'0')} 0x${ds[1].toString(16).padStart(16,'0')} 0x${ds[2].toString(16).padStart(16,'0')} 0x${ds[3].toString(16).padStart(16,'0')}`);
 	}
 
 	mix(0);
 	mix(1);
 	mix(2);
+  //console.log(`rds6 = 0x${ds[0].toString(16).padStart(16,'0')} 0x${ds[1].toString(16).padStart(16,'0')} 0x${ds[2].toString(16).padStart(16,'0')} 0x${ds[3].toString(16).padStart(16,'0')}`);
 }
 
 export function discohash( key = '', seed = 0 ) {
