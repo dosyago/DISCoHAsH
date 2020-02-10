@@ -5,8 +5,13 @@ const tests = [
   [ 'xyz999', 2 ]
 ];
 
-//test();
+test();
 smhasher_verification_value();
+big_key_value();
+big_key_value();
+big_key_value();
+big_key_value();
+big_key_value();
 
 function test() {
   tests.forEach(([k, s]) => {
@@ -66,4 +71,22 @@ function smhasher_verification_value() {
   console.log(`JS verif val: 0x${verif[0].toString(2).padStart(32, '0')}`);
 	
 	return verif[0];
+}
+
+function big_key_value() {
+  const A = new Array(51000).join('.').split('.');
+  const B = A.map((_,i) => {
+    return String.fromCodePoint(i);
+  });
+  const C = B.join('');
+
+  const start = Date.now();
+  const hash = discohash(C, 9999);
+  console.log("Hash", hash);
+  const end = Date.now();
+
+  const duration = (end-start);
+
+  const rate = (C.length*4*1000.0/duration)/1000000;
+  console.log("JS Rate MB/s", rate.toFixed(2));
 }

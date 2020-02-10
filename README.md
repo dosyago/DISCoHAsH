@@ -34,4 +34,16 @@ Or using Snowpack as a webmodule:
 import {discohash} from './webmodules/bebb4185.js';
 ```
 
-**Note:** JS implementation is currently WIP.
+## JS Implementation
+
+- The JS Implementation produces the same value hashes as the C++ implementation.
+- The JS implementation is ~ 1000x slower than the C++ implementation.
+- This is probably because of the use of BigInts to stand in for `uint64_t`
+- It's possible to implement a 64-bit mult using 32-bit view which would remove the need for BigInt. I have no plan to do this.
+
+
+## SMHasher verification value
+
+The value is: `BEBB4185`
+
+
