@@ -1,8 +1,8 @@
 # :city_sunrise: [Discohash](https://github.com/cris691/discohash)
 
-#### **5GB/s** **[SMHasher](https://github.com/cris691/discohash/blob/master/Disco3.result.txt)** 
+#### **[5GB/s SMHasher](https://github.com/cris691/discohash/blob/master/Disco3.result.txt)**  [![version](https://img.shields.io/npm/v/bebb4185.svg?label=&color=0080FF)](https://github.com/cris691/discohash/releases/latest) ![npm downloads](https://img.shields.io/npm/dt/bebb4185)
 
-**Discohash** (*also known as* **BEBB4185**) is a super-fast non-cryptographic hash that passes SMHasher, and runs at 5GB/s in this naive, portable implementation.
+**Discohash** (*also known as* **BEBB4185**) is a super-fast non-cryptographic hash that passes all of SMHasher, and runs at 5GB/s in this naive, portable implementation.
 
 ------
 
