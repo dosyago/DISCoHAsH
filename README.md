@@ -13,10 +13,22 @@
 - Passes all SMHasher tests. 
 - *Also known as*: **BEBB4185**
 - Implemented in C++, and also a port to JS
+- This repo includes a simple CLI app for hashing files or stdin from the command line.
 
 ## Using
 
-Use the C code from this repository, or, for a JS implementation:
+Use the C code from this repository, either in your project or as a CL-app (included):
+
+```console
+cd src
+./build.sh
+./bin/bebbsum < test.txt
+> 0xa2a647993898a3df
+./bin/bebbsum test.txt
+> 0xa2a647993898a3df
+```
+
+or, for a JS implementation:
 
 ```console
 npm i --save bebb4185
