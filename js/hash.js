@@ -103,6 +103,8 @@ function round( m64, m8, len ) {
 export function discohash( key = '', seed = 0 ) {
   // get 32-bit codepoints if it's a string
     // ref: "I say we take take-off, nuke the site from orbit, only way to be sure"
+    // also: this will make JS version diverge from C++ on strings
+    // if an array of bytes are provided the results will be the same.
 
   let wasString = false;
   let len = key.length;
