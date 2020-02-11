@@ -2,4 +2,4 @@
 
 rm -rf bin
 mkdir bin
-g++ *.cpp -o bin/bebbsum
+g++ -march=native -Ofast *.cpp -o bin/bebbsum

@@ -18,22 +18,49 @@
 const int SIZE = 1024;
 
 long getSizeOfInput(FILE *input, char **buf){
+  char *nb;
   long retvalue = 0;
   long size = SIZE;
   int c;
 
-  while (EOF != (c = fgetc(input))) {
-    if ( retvalue >= size-1 ) {
-      size *= 1.618;
-      buf[0] = (char *)realloc(buf[0], size);
-      if ( buf[0] == NULL ) {
-        free(buf[0]);
-        printf("Out of memory");
-        exit(EXIT_FAILURE);
-      }
+  if (input != stdin) {
+    if (-1 == fseek(input, 0L, SEEK_END)) {
+      fprintf(stderr, "Error seek end: %s\n", strerror(errno));
+      exit(EXIT_FAILURE);
     }
-    buf[0][retvalue] = c;
-    retvalue++;
+    if (-1 == (retvalue = ftell(input))) {
+      fprintf(stderr, "ftell failed: %s\n", strerror(errno));
+      exit(EXIT_FAILURE);
+    }
+    if (-1 == fseek(input, 0L, SEEK_SET)) {
+      fprintf(stderr, "Error seek start: %s\n", strerror(errno));
+      exit(EXIT_FAILURE);
+    }
+    size = retvalue;
+    nb = (char *)realloc(buf[0], size);
+    if ( nb == NULL ) {
+      free(buf[0]);
+      printf("Out of memory");
+      exit(EXIT_FAILURE);
+    }
+    buf[0] = nb;
+    fread(buf[0], 1, retvalue, input);
+    fclose(input);
+  } else {
+    while (EOF != (c = fgetc(input))) {
+      if ( retvalue >= size-1 ) {
+        size *= 1.618;
+        nb = (char *)realloc(buf[0], size);
+        if ( nb == NULL ) {
+          free(buf[0]);
+          printf("Out of memory");
+          exit(EXIT_FAILURE);
+        }
+        buf[0] = nb;
+      }
+      buf[0][retvalue] = c;
+      retvalue++;
+    } 
   }
 
   //printf("Size %ld\n", size);
@@ -42,14 +69,18 @@ long getSizeOfInput(FILE *input, char **buf){
 }
 
 int main(int argc, char **argv) {
-   FILE *input;
-   long size = SIZE;
-   char *buf[1];
-   buf[0] = (char *)malloc(size);
-   uint8_t hash[8] = {0};
-   uint64_t *H = (uint64_t *)hash;
+  FILE *input;
+  long size = SIZE;
+  char *buf[1];
+  buf[0] = (char *)malloc(size);
+  if ( buf[0] == NULL ) {
+    printf("Out of memory");
+    exit(EXIT_FAILURE);
+  }
+  uint8_t hash[8] = {0};
+  uint64_t *H = (uint64_t *)hash;
 
-   if (argc > 1) {
+  if (argc > 1) {
     if(!strcmp(argv[1],"-")) {
        input = stdin;
     } else {
@@ -60,26 +91,28 @@ int main(int argc, char **argv) {
           exit(EXIT_FAILURE);
        }
     }
-   } else {
-      input = stdin;
-      freopen(NULL, "rb", stdin);
-   }
+  } else {
+    input = stdin;
+    freopen(NULL, "rb", stdin);
+  }
 
-   SET_BINARY_MODE(input);
+  SET_BINARY_MODE(input);
 
-   size = getSizeOfInput(input, buf);
+  size = getSizeOfInput(input, buf);
 
-   //printf("OK %.*s\n", size, buf[0]);
+  //printf("OK %.*s\n", size, buf[0]);
 
-   //printf("Size of file: %ld\n", size);
+  //printf("Size of file: %ld\n", size);
 
-   BEBB4185_64(buf[0], size, 0, hash);
+  BEBB4185_64(buf[0], size, 0, hash);
 
-   printf("%#018" PRIx64 "\n", H[0]);
+  printf("%#018" PRIx64 "\n", H[0]);
 
-   //BEBB4185_64(buf, size, 0, hash);
+  //BEBB4185_64(buf, size, 0, hash);
 
-   //printf("Hash %#018" PRIx64 "\n", H[0]);
+  //printf("Hash %#018" PRIx64 "\n", H[0]);
 
-   return EXIT_SUCCESS;
+  free(buf[0]);
+
+  return EXIT_SUCCESS;
 }
