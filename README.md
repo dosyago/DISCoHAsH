@@ -4,6 +4,8 @@
 
 **Discohash** (*also known as* **BEBB4185**) is a super-fast non-cryptographic hash that passes all of SMHasher, and runs at 5GB/s in this naive, portable implementation.
 
+**CLI app included**
+
 ------
 
 # Quick Facts
