@@ -23,9 +23,10 @@ const int STATE64 = STATE >> 3;
 const int STATEM = STATE-1;
 const int HSTATE64M = (STATE64 >> 1)-1;
 const int STATE64M = STATE64-1;
+const uint64_t P = 0xFFFFFFFFFFFFFFFF - 58;
+const uint64_t Q = 13166748625691186689U;
+
 uint8_t disco_buf[STATE] = {0};
-uint64_t P = 0xFFFFFFFFFFFFFFFF - 58;
-uint64_t Q = 13166748625691186689U;
 uint8_t *ds8 = (uint8_t *)disco_buf;
 uint32_t *ds32 = (uint32_t *)disco_buf;
 uint64_t *ds = (uint64_t *)disco_buf;
