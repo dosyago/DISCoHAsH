@@ -22,9 +22,9 @@ Use the C code from this repository, either in your project or as a CL-app (incl
 ```console
 cd src
 ./build.sh
-./bin/bebbsum < test.txt
+./bin/bebbsum < 0xa2a647993898a3df.txt
 > 0xa2a647993898a3df
-./bin/bebbsum test.txt
+./bin/bebbsum 0xa2a647993898a3df.txt
 > 0xa2a647993898a3df
 ```
 
