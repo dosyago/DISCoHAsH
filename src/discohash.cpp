@@ -58,16 +58,6 @@ uint64_t *ds = (uint64_t *)disco_buf;
       return v; 
     }
 
-    FORCE_INLINE void mixA()
-    {
-      int i = ds32[0] & 1;
-      int j = ds32[3] & 3;
-
-      ds[0] = rot(ds[0], ds[i]);
-      ds[i] *= (P % (ds32[j] + 1) + 1);
-      ds[1] += ds32[j];
-    }
-
     FORCE_INLINE void mix(const int A)
     {
       const int B = A+1;
