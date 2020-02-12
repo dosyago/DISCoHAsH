@@ -10,7 +10,7 @@
 
 # Quick Facts
 
-- A super-fast 64-bit non-cryptographic hash.
+- A super-fast 64-bit hash.
 - Tested at ~ 5GB/s @ 3Gz.
 - Passes all SMHasher tests. 
 - *Also known as*: **BEBB4185**
@@ -64,5 +64,4 @@ const hash = discohash(string_or_typed_array_key, optional_seed);
 ## SMHasher verification value
 
 The value is: `BEBB4185`
-
 
