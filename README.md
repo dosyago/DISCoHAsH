@@ -65,6 +65,6 @@ const hash = discohash(string_or_typed_array_key, optional_seed);
 
 The value is: `BEBB4185`
 
-## Future work
+## Possible future work
 
-Make a parallel version, similar to how BLAKE3 runs in parallel.
+Make a parallel version using Merkle tree
