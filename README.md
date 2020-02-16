@@ -1,8 +1,8 @@
 # :city_sunrise: [Discohash](https://github.com/cris691/discohash)
 
-#### **[2.6GB/s SMHasher](https://github.com/rurban/smhasher/blob/master/doc/BEBB4185)**  [![version](https://img.shields.io/npm/v/bebb4185.svg?label=&color=0080FF)](https://github.com/cris691/discohash/releases/latest) ![npm downloads](https://img.shields.io/npm/dt/bebb4185)
+#### **[2 - 5 GB/s, passed SMHasher](https://github.com/rurban/smhasher/blob/master/doc/BEBB4185)**  [![version](https://img.shields.io/npm/v/bebb4185.svg?label=&color=0080FF)](https://github.com/cris691/discohash/releases/latest) ![npm downloads](https://img.shields.io/npm/dt/bebb4185)
 
-**Discohash** (*also known as* **BEBB4185**) is a super-fast hash that passes all of SMHasher, and runs at 2.6GB/s in this naive, portable implementation.
+**Discohash** (*also known as* **BEBB4185**) is a super-fast hash that passes all of SMHasher, and runs at 2 - 5 GB/s (depending on hardware) in this naive, portable implementation.
 
 **CLI app included**
 
