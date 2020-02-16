@@ -23,5 +23,6 @@
   "homepage": "https://github.com/cris691/discohash#readme",
   "dependencies": {
     "esm": "^3.2.25"
-  }
+  },
+  "devDependencies": {}
 }

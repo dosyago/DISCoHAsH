@@ -90,3 +90,4 @@ function big_key_value() {
   const rate = (C.length*4*1000.0/duration)/1000000;
   console.log("JS Rate MB/s", rate.toFixed(2));
 }
+
