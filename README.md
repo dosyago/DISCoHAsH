@@ -1,8 +1,8 @@
 # :city_sunrise: [Discohash](https://github.com/cris691/discohash)
 
-#### **[5GB/s SMHasher](https://github.com/cris691/discohash/blob/master/Disco3.result.txt)**  [![version](https://img.shields.io/npm/v/bebb4185.svg?label=&color=0080FF)](https://github.com/cris691/discohash/releases/latest) ![npm downloads](https://img.shields.io/npm/dt/bebb4185)
+#### **[2.6GB/s SMHasher](https://github.com/rurban/smhasher/blob/master/doc/BEBB4185)**  [![version](https://img.shields.io/npm/v/bebb4185.svg?label=&color=0080FF)](https://github.com/cris691/discohash/releases/latest) ![npm downloads](https://img.shields.io/npm/dt/bebb4185)
 
-**Discohash** (*also known as* **BEBB4185**) is a super-fast hash that passes all of SMHasher, and runs at 5GB/s in this naive, portable implementation.
+**Discohash** (*also known as* **BEBB4185**) is a super-fast hash that passes all of SMHasher, and runs at 2.6GB/s in this naive, portable implementation.
 
 **CLI app included**
 
@@ -57,7 +57,7 @@ const hash = discohash(string_or_typed_array_key, optional_seed);
 ## JS Implementation
 
 - The JS Implementation produces the same value hashes as the C++ implementation.
-- The JS implementation is ~ 1000x slower than the C++ implementation.
+- The JS implementation is ~ 500x slower than the C++ implementation.
 - This is probably because of the use of BigInts to stand in for `uint64_t`
 - It's possible to implement a 64-bit mult using 32-bit view which would remove the need for BigInt. I have no plan to do this.
 
@@ -65,6 +65,6 @@ const hash = discohash(string_or_typed_array_key, optional_seed);
 
 The value is: `BEBB4185`
 
-## Future work
+## Possible future work
 
-Make a parallel version, similar to how BLAKE3 runs in parallel.
+Make a parallel version using Merkle tree

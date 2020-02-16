@@ -10,8 +10,6 @@
 
 #define FORCE_INLINE  __forceinline
 
-// Other compilers
-
 #else // defined(_MSC_VER)
 
 #define FORCE_INLINE inline __attribute__((always_inline))
@@ -37,14 +35,6 @@ uint64_t *ds = (uint64_t *)disco_buf;
     FORCE_INLINE uint64_t rot( uint64_t v, int n) 
     {
       n = n & 63U;
-      if (n)
-          v = (v >> n) | (v << (64-n));
-      return v; 
-    }
-
-    FORCE_INLINE uint64_t rot32( uint64_t v, int n) 
-    {
-      n = n & 31U;
       if (n)
           v = (v >> n) | (v << (64-n));
       return v; 
@@ -131,7 +121,6 @@ uint64_t *ds = (uint64_t *)disco_buf;
       // the cali number from the Matrix (1999)
       seed32Arr[0] = 0xc5550690;
       seed32Arr[0] -= seed;
-      // if seed mod doesn't work let's try reverse order of seed/key round calls
       seed32Arr[1] = 1 + seed;
       seed32Arr[2] = ~(1 - seed);
       seed32Arr[3] = (1+seed) * 0xf00dacca;
@@ -154,7 +143,6 @@ uint64_t *ds = (uint64_t *)disco_buf;
       const uint8_t output[STATE] = {0};
       uint64_t *h = (uint64_t *)output;
 
-      //h[0] = ds[1];
       h[0] = ds[2];
       h[1] = ds[3];
 
