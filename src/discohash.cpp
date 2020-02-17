@@ -74,7 +74,7 @@ uint64_t *ds = (uint64_t *)disco_buf;
       uint64_t counter = 0xfaccadaccad09997;
       uint8_t counter8 = 137;
 
-      #pragma openmp for
+      //#pragma omp parallel for
       for( int Len = len >> 3; index < Len; index++) {
         ds[sindex] += rot(m64[index] + index + counter + 1, 23);
         counter += ~m64[index] + 1;
@@ -91,6 +91,8 @@ uint64_t *ds = (uint64_t *)disco_buf;
 
       index <<= 3;
       sindex = index&(STATEM);
+      
+      //#pragma omp parallel for
       for( ; index < len; index++) {
         ds8[sindex] += rot8(m8[index] + index + counter8 + 1, 23);
         counter8 += ~m8[sindex] + 1;
