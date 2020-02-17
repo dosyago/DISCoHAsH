@@ -74,6 +74,7 @@ uint64_t *ds = (uint64_t *)disco_buf;
       uint64_t counter = 0xfaccadaccad09997;
       uint8_t counter8 = 137;
 
+      #pragma openmp for
       for( int Len = len >> 3; index < Len; index++) {
         ds[sindex] += rot(m64[index] + index + counter + 1, 23);
         counter += ~m64[index] + 1;

@@ -21,82 +21,82 @@ const S3 = 63n;
 const S4 = 64n;
 
 function rot( v, n = 0n ) {
-	n = n & S3;
-	if (n) {
-		v = (v >> n) | (v << (S4-n));
-	}
-	return v; 
+  n = n & S3;
+  if (n) {
+    v = (v >> n) | (v << (S4-n));
+  }
+  return v; 
 }
 
 function rot8( v, n = 0 ) {
-	n = n & 7;
-	if (n) {
-		v = (v >> n) | (v << (8-n));
-	}
-	return v; 
+  n = n & 7;
+  if (n) {
+    v = (v >> n) | (v << (8-n));
+  }
+  return v; 
 }
 
 function mix(A = 0) {
-	const B = A+1;
+  const B = A+1;
   
-	ds[A] *= P;
-	ds[A] = rot(ds[A], R);
-	ds[A] *= Q;
-	
-	ds[B] ^= ds[A];
+  ds[A] *= P;
+  ds[A] = rot(ds[A], R);
+  ds[A] *= Q;
+  
+  ds[B] ^= ds[A];
 
-	ds[B] *= P;
-	ds[B] = rot(ds[B], R);
-	ds[B] *= Q;
+  ds[B] *= P;
+  ds[B] = rot(ds[B], R);
+  ds[B] *= Q;
 }
 
 function round( m64, m8, len ) {
   //console.log(`rds0 = 0x${ds[0].toString(16).padStart(16,'0')} 0x${ds[1].toString(16).padStart(16,'0')} 0x${ds[2].toString(16).padStart(16,'0')} 0x${ds[3].toString(16).padStart(16,'0')}`);
-	let index = 0;
-	let sindex = 0;
-	C[0] = 0xfaccadaccad09997n;
+  let index = 0;
+  let sindex = 0;
+  C[0] = 0xfaccadaccad09997n;
   C8[0] = 137;
 
-	for( let Len = len >> 3; index < Len; index++) {
-		T64[0] = m64[index] + BigInt(index) + C[0] + 1n;
+  for( let Len = len >> 3; index < Len; index++) {
+    T64[0] = m64[index] + BigInt(index) + C[0] + 1n;
     T64[0] = rot(T64[0], R);
     //console.log(`rds1 = 0x${ds[0].toString(16).padStart(16,'0')} 0x${ds[1].toString(16).padStart(16,'0')} 0x${ds[2].toString(16).padStart(16,'0')} 0x${ds[3].toString(16).padStart(16,'0')}`);
     ds[sindex] += T64[0];
-		T64[0] = ~m64[index] + 1n;
-		C[0] += T64[0];
-		if ( sindex == HSTATE64M ) {
-			mix(0);
-		} else if ( sindex == STATE64M ) {
-			mix(2);
-			sindex = -1;
-		}
-		sindex++;
+    T64[0] = ~m64[index] + 1n;
+    C[0] += T64[0];
+    if ( sindex == HSTATE64M ) {
+      mix(0);
+    } else if ( sindex == STATE64M ) {
+      mix(2);
+      sindex = -1;
+    }
+    sindex++;
     //console.log(`rds2 = 0x${ds[0].toString(16).padStart(16,'0')} 0x${ds[1].toString(16).padStart(16,'0')} 0x${ds[2].toString(16).padStart(16,'0')} 0x${ds[3].toString(16).padStart(16,'0')}`);
-	}
+  }
 
-	mix(1);
+  mix(1);
 
-	index <<= 3;
-	sindex = index&(BSTATEM);
+  index <<= 3;
+  sindex = index&(BSTATEM);
   //console.log(`rds3 = 0x${ds[0].toString(16).padStart(16,'0')} 0x${ds[1].toString(16).padStart(16,'0')} 0x${ds[2].toString(16).padStart(16,'0')} 0x${ds[3].toString(16).padStart(16,'0')}`);
   //console.log(index,len);
-	for( ; index < len; index++) {
-		T8[0] = m8[index] + index + C8[0] + 1;
+  for( ; index < len; index++) {
+    T8[0] = m8[index] + index + C8[0] + 1;
     ds8[sindex] += rot8(T8[0], 23);
-		T8[0] = ~m8[sindex] + 1;
+    T8[0] = ~m8[sindex] + 1;
     C8[0] += T8[0];
     //console.log(`rds4 = 0x${ds[0].toString(16).padStart(16,'0')} 0x${ds[1].toString(16).padStart(16,'0')} 0x${ds[2].toString(16).padStart(16,'0')} 0x${ds[3].toString(16).padStart(16,'0')}`);
-		mix(index%STATE64M);
-		if ( sindex >= BSTATEM ) {
-			sindex = -1;
-		}
-		sindex++;
+    mix(index%STATE64M);
+    if ( sindex >= BSTATEM ) {
+      sindex = -1;
+    }
+    sindex++;
     //console.log(`rds5 = 0x${ds[0].toString(16).padStart(16,'0')} 0x${ds[1].toString(16).padStart(16,'0')} 0x${ds[2].toString(16).padStart(16,'0')} 0x${ds[3].toString(16).padStart(16,'0')}`);
-	}
+  }
 
-	mix(0);
-	mix(1);
-	mix(2);
+  mix(0);
+  mix(1);
+  mix(2);
   //console.log(`rds6 = 0x${ds[0].toString(16).padStart(16,'0')} 0x${ds[1].toString(16).padStart(16,'0')} 0x${ds[2].toString(16).padStart(16,'0')} 0x${ds[3].toString(16).padStart(16,'0')}`);
 }
 
