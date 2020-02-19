@@ -69,13 +69,14 @@ uint64_t *ds = (uint64_t *)disco_buf;
 
     FORCE_INLINE void round( const uint64_t * m64, const uint8_t * m8, int len )
     {
-      int index = 0;
+      int index;
       int sindex = 0;
+      int Len = len >> 3;
       uint64_t counter = 0xfaccadaccad09997;
       uint8_t counter8 = 137;
 
       //#pragma omp parallel for
-      for( int Len = len >> 3; index < Len; index++) {
+      for( index = 0; index < Len; index++) {
         ds[sindex] += rot(m64[index] + index + counter + 1, 23);
         counter += ~m64[index] + 1;
         if ( sindex == HSTATE64M ) {
@@ -89,11 +90,11 @@ uint64_t *ds = (uint64_t *)disco_buf;
 
       mix(1);
 
-      index <<= 3;
+      Len = index << 3;
       sindex = index&(STATEM);
       
       //#pragma omp parallel for
-      for( ; index < len; index++) {
+      for( index = Len; index < len; index++) {
         ds8[sindex] += rot8(m8[index] + index + counter8 + 1, 23);
         counter8 += ~m8[sindex] + 1;
         mix(index%STATE64M);
