@@ -2,7 +2,7 @@
 
 #### **[2-5GB/s, passed SMHasher](https://github.com/rurban/smhasher/blob/master/doc/BEBB4185)**  [![version](https://img.shields.io/npm/v/bebb4185.svg?label=&color=0080FF)](https://github.com/cris691/discohash/releases/latest) ![npm downloads](https://img.shields.io/npm/dt/bebb4185)
 
-**Discohash** (*also known as* **BEBB4185**) is a super-fast hash that passes all of SMHasher, and runs at 2 - 5 GB/s (depending on hardware) in this naive, portable implementation.
+**Discohash** (*also known as* **BEBB4185**) is a super simple and super fast hash that passes all of SMHasher, and runs at 2-5GB/s (depending on hardware) in this naive, portable, serial implementation.
 
 **CLI app included**
 
@@ -11,7 +11,8 @@
 # Quick Facts
 
 - A super-fast 64-bit hash.
-- Tested at ~ 5GB/s @ 3Gz.
+- Mix is super simple.
+- Tested at ~ 5GB/s @ 3Gz, (Google Cloud Platform, N1 CPU)
 - Passes all SMHasher tests. 
 - *Also known as*: **BEBB4185**
 - Implemented in C++, and also a port to JS
