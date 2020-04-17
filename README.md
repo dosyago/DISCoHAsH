@@ -11,6 +11,7 @@
 # Quick Facts
 
 - A super-fast 64-bit hash.
+- one of the fastest hashes every benchmarked at [ecrypt](https://bench.cr.yp.to/impl-hash/bebb4185.html)
 - Mix is super simple.
 - Tested at ~ 5GB/s @ 3Gz, (Google Cloud Platform, N1 CPU)
 - Passes all SMHasher tests. 
