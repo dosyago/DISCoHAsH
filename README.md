@@ -1,4 +1,4 @@
-# :city_sunrise: [Discohash](https://github.com/cris691/discohash)
+# :dancers: [Discohash](https://github.com/cris691/discohash)
 
 #### **[2-5GB/s, passed SMHasher](https://github.com/rurban/smhasher/blob/master/doc/BEBB4185.txt)**  [![version](https://img.shields.io/npm/v/bebb4185.svg?label=&color=0080FF)](https://github.com/cris691/discohash/releases/latest) ![npm downloads](https://img.shields.io/npm/dt/bebb4185)
 
