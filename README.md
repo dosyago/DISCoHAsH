@@ -14,6 +14,7 @@
 
 - A super-fast 64-bit hash.
 - one of the fastest hashes ever benchmarked at [ecrypt](https://bench.cr.yp.to/impl-hash/bebb4185.html)
+- [ECRYPT](https://bench.cr.yp.to/impl-hash/bebb4185.html) benchmark is 4x faster than [BLAKE3](https://bench.cr.yp.to/impl-hash/blake3.html)
 - Mix is super simple.
 - Tested at ~ 5GB/s @ 3Gz, (Google Cloud Platform, N1 CPU)
 - Passes all SMHasher tests. 
@@ -49,6 +50,8 @@ P, and Q are:
 - Q = 13166748625691186689
 
 The internal state is 256-bits and the mixing function windows across that.
+
+The standard digest is 64-bits, but you can modify it to take 128-bits if you want a cryptographically secure hash.
 
 ## Using
 
