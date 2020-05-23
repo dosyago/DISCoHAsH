@@ -21,6 +21,35 @@
 - Implemented in C++, and also a port to JS
 - This repo includes a simple CLI app for hashing files or stdin from the command line.
 
+## Simplicity
+
+The main 128-bit-to-128-bit mixing function is just this:
+
+```c
+  mix(const int A)
+    {
+      const int B = A+1;
+      
+      ds[A] *= P;
+      ds[A] = rot(ds[A], 23);
+      ds[A] *= Q;
+      
+      ds[B] ^= ds[A];
+
+      ds[B] *= P;
+      ds[B] = rot(ds[B], 23);
+      ds[B] *= Q;
+    }
+```
+
+which is just multiplications by two 64-bit primes, P and Q, bit rotation, and xor.
+
+P, and Q are:
+- P = 0xFFFFFFFFFFFFFFFF - 58
+- Q = 13166748625691186689
+
+The internal state is 256-bits and the mixing function windows across that.
+
 ## Using
 
 Use the C code from this repository, either in your project or as a CL-app (included):
