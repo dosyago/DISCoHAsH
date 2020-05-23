@@ -3,7 +3,7 @@
 // Licensed under MIT
 // https://github.com/cris691/discohash
 #include <cstdio>
-#include <inttypes.h>
+#include <cinttypes>
 #include "discohash.h"
 
 #if defined(_MSC_VER)
