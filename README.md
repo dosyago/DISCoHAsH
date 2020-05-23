@@ -49,9 +49,9 @@ P, and Q are:
 - P = 0xFFFFFFFFFFFFFFFF - 58
 - Q = 13166748625691186689
 
-The internal state is 256-bits and the mixing function windows across that.
+The standard internal state is 256-bits and the mixing function windows across that.
 
-The standard digest is 64-bits, but you can modify it to take 128-bits if you want a cryptographically secure hash.
+The standard digest is 64-bits, but you can modify it to yield 128-bits or more if you want a cryptographically secure hash.
 
 ## Using
 
