@@ -6,6 +6,18 @@
 
 [Link to the SUPERCOP ECRYPT benchmark for bebb4185](https://bench.cr.yp.to/impl-hash/bebb4185.html)
 
+## Cryptanalysis
+
+**Cryptanalysis Open**
+
+Inviting all budding hashbreakers to attack the 128-bit version. Should be easy, right?
+
+If you'd like something a little more challenging, try breaking [beamsplitter-128](https://github.com/cris691/beamsplitter)
+
+Submit your results as PR requests updating the README to a link to your analysis, or [contact Cris directly](mailto:cris@dosycorp.com).
+
+**Important Note** The 128-bit variants must be modified from the existing source C/C++ files. Find the commented out lines at the end of the main hash function, and return 128-bits, instead of 64.
+
 **CLI app included**
 
 ------
