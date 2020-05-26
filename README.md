@@ -6,7 +6,7 @@
 
 [Link to the SUPERCOP ECRYPT benchmark for bebb4185](https://bench.cr.yp.to/impl-hash/bebb4185.html)
 
-The [ECRYPT](https://bench.cr.yp.to/impl-hash/bebb4185.html) benchmark is 4x faster than [BLAKE3](https://bench.cr.yp.to/impl-hash/blake3.html)
+The [ECRYPT benchmark](https://bench.cr.yp.to/impl-hash/bebb4185.html) is 4x faster than [BLAKE3](https://bench.cr.yp.to/impl-hash/blake3.html)
 
 
 ## Cryptanalysis
