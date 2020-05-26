@@ -61,8 +61,27 @@ The main 128-bit-to-128-bit mixing function is just this:
 which is just multiplications by two 64-bit primes, P and Q, bit rotation, and xor.
 
 P, and Q are:
-- P = 0xFFFFFFFFFFFFFFFF - 58
-- Q = 13166748625691186689
+
+- P = 0xFFFFFFFFFFFFFFFF - 58           (largest 64-bit prime)
+- Q = 13166748625691186689              (random prime, 2^9×3×19×73×773×35149×227467 + 1)
+
+## More about P and Q
+
+Binary
+
+- 1111111111111111111111111111111111111111111111111111111111000101
+- 1011011010111001101100000001110101011001001011111001011000000001
+
+The difference is particularly interesting:
+
+- P - Q + 1 = 5279995448018364869 = 16445111 × 321067790179
+- P - Q = 2^2 × 31 × 107 × 397949611698701 
+- P - Q - 1 = 3 × 17 × 289086659 × 358125563 
+- P - Q == P ^ Q                        (difference equals xor, not true for most pairs)
+
+The count of numbers less than some n whose difference equals their xor is also known as [Gould's sequence](https://en.wikipedia.org/wiki/Gould%27s_sequence), and is equal to the number of odd entries in row n of Pascal's triangle, while the binary exponents of this give the number of non-zero bits in n, and taking the mod 2 remainders of those values, gives the [Thue-Morse sequence](https://en.wikipedia.org/wiki/Thue%E2%80%93Morse_sequence). See [A001316](https://oeis.org/A001316) for more.
+
+## Standard Version 
 
 The standard internal state is 256-bits and the mixing function windows across that.
 
@@ -118,4 +137,6 @@ The value is: `BEBB4185`
 
 ## Possible future work
 
-Make a parallel version using Merkle tree
+- Make a parallel version using Merkle tree
+- Make a note about how internal state can be extended
+- Implement a variable-output variant using a sponge construction
