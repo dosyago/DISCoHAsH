@@ -104,6 +104,8 @@ or, for a JS implementation:
 
 ```console
 npm i --save bebb4185
+// or
+npm i --save discohash
 ```
 
 Use in Node.JS:
