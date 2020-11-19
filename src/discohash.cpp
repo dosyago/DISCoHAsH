@@ -152,6 +152,8 @@ uint64_t *ds = (uint64_t *)disco_buf;
 
       h[0] += h[1];
       
+      // uncomment for 128-bit version
+      
       //h[2] = ds[0];
       //h[3] = ds[1];
       //
