@@ -8,6 +8,7 @@
 
 The [ECRYPT benchmark](https://bench.cr.yp.to/impl-hash/bebb4185.html) is 4x faster than [BLAKE3](https://bench.cr.yp.to/impl-hash/blake3.html)
 
+Also there's an [unofficial Golang port](https://github.com/dgryski/go-disco)
 
 ## Cryptanalysis
 
@@ -133,9 +134,13 @@ const hash = discohash(string_or_typed_array_key, optional_seed);
 - This is probably because of the use of BigInts to stand in for `uint64_t`
 - It's possible to implement a 64-bit mult using 32-bit view which would remove the need for BigInt. I have no plan to do this.
 
+## Golang port
+
+There's an [unofficial go port](https://github.com/dgryski/go-disco).
+
 ## SMHasher verification value
 
-The value is: `BEBB4185`
+The value was: `BEBB4185` but SMHasher has since updated how it calculates that, so now it's different!
 
 ## Possible future work
 
