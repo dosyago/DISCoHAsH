@@ -4,6 +4,8 @@
 
 **Discohash** (*also known as* **BEBB4185**) is a super simple and super fast hash that passes all of SMHasher, and runs at 2-5GB/s (depending on hardware) in this naive, portable, serial implementation.
 
+There's also a [go implementation](https://github.com/dgryski/go-disco) *I haven't tested it but it's cool that someone did it!* :p ;) xx
+
 [Link to the SUPERCOP ECRYPT benchmark for bebb4185](https://bench.cr.yp.to/impl-hash/bebb4185.html)
 
 The [ECRYPT benchmark](https://bench.cr.yp.to/impl-hash/bebb4185.html) is 4x faster than [BLAKE3](https://bench.cr.yp.to/impl-hash/blake3.html)
