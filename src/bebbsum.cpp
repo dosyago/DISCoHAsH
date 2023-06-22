@@ -57,7 +57,6 @@ int main(int argc, char **argv) {
     hashObj.BEBB4185_64(buffer.data(), buffer.size(), 0, hash.data());
 
     printf("%#018" PRIx64 "\n", *reinterpret_cast<uint64_t*>(hash.data()));
-    std::cout << "Post Hash 2" << std::endl;
 
     return EXIT_SUCCESS;
 }
