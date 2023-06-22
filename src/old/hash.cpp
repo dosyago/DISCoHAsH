@@ -2,9 +2,17 @@
 // Copyright 2020 Cris Stringfellow
 // Licensed under MIT
 // https://github.com/cris691/discohash
+#include <iostream>
+#include <vector>
+#include <fstream>
+#include <inttypes.h>
+#include <stdexcept>
 #include <cstdio>
 #include <inttypes.h>
-#include "discohash.h"
+#include <vector>
+#include <array>
+#include <stdint.h>
+#include "hash.h"
 
 #if defined(_MSC_VER)
 
@@ -54,14 +62,12 @@ uint64_t *ds = (uint64_t *)disco_buf;
       ds[A] *= P;
       ds[A] = rot(ds[A], 23);
       ds[A] *= Q;
-      //ds[A] = rot(ds[A], 23);
       
       ds[B] ^= ds[A];
 
       ds[B] *= P;
       ds[B] = rot(ds[B], 23);
       ds[B] *= Q;
-      //ds[B] = rot(ds[B], 23);
     }
 
   //---------
@@ -75,8 +81,8 @@ uint64_t *ds = (uint64_t *)disco_buf;
       uint64_t counter = 0xfaccadaccad09997;
       uint8_t counter8 = 137;
 
-      //#pragma omp parallel for
       for( index = 0; index < Len; index++) {
+        std::cout << "[IN LOOP 1] Len: " << Len << ", len: " << len << ", index: " << index << ", sindex: " << sindex << std::endl;
         ds[sindex] += rot(m64[index] + index + counter + 1, 23);
         counter += ~m64[index] + 1;
         if ( sindex == HSTATE64M ) {
@@ -93,8 +99,8 @@ uint64_t *ds = (uint64_t *)disco_buf;
       Len = index << 3;
       sindex = index&(STATEM);
       
-      //#pragma omp parallel for
       for( index = Len; index < len; index++) {
+        std::cout << "[IN LOOP 2] Len: " << Len << ", len: " << len << ", index: " << index << ", sindex: " << sindex << std::endl;
         ds8[sindex] += rot8(m8[index] + index + counter8 + 1, 23);
         counter8 += ~m8[sindex] + 1;
         mix(index%STATE64M);
