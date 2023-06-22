@@ -21,21 +21,21 @@ class DiscoHash {
     std::vector<uint64_t> ds;
     std::vector<uint8_t> ds8;
 
-    uint64_t rot(uint64_t v, int n) {
+    inline uint64_t rot(uint64_t v, int n) {
       n = n & 63U;
       if (n)
         v = (v >> n) | (v << (64-n));
       return v; 
     }
 
-    uint8_t rot8(uint8_t v, int n) {
+    inline uint8_t rot8(uint8_t v, int n) {
       n = n & 7U;
       if (n)
         v = (v >> n) | (v << (8-n));
       return v; 
     }
 
-    void mix(const int A) {
+    inline void mix(const int A) {
       const int B = A+1;
       ds[A] *= P;
       ds[A] = rot(ds[A], 23);
@@ -57,7 +57,6 @@ class DiscoHash {
 
 
       for(index = 0; index < Len; index++) {
-        std::cout << "[IN LOOP 1] Len: " << Len << ", len: " << len << ", index: " << index << ", sindex: " << sindex << std::endl;
 
         ds[sindex] += rot(m64[index] + index + counter + 1, 23);
         counter += ~m64[index] + 1;
@@ -77,7 +76,6 @@ class DiscoHash {
       index = index << 3;
       
       for(; index < len; index++) {
-        std::cout << "[IN LOOP 2] Len: " << Len << ", len: " << len << ", index: " << index << ", sindex: " << sindex << std::endl;
         ds8[sindex] += rot8(m8[index] + index + counter8 + 1, 23);
         counter8 += ~m8[sindex] + 1;
         mix(index%STATE64M);
@@ -90,7 +88,6 @@ class DiscoHash {
       mix(0);
       mix(1);
       mix(2);
-
     }
 
   public:
@@ -136,7 +133,6 @@ class DiscoHash {
       std::array<uint64_t, 4> h = {ds[2] + ds[3], ds[3], ds[0] + ds[1], ds[1]};
 
       std::copy(h.begin(), h.end(), reinterpret_cast<uint64_t*>(out));
-      std::cout << "Copy out done" << h[0] << " " << h[1] << " " << h[2] << " " << h[3] << std::endl;
     }
 };
 
