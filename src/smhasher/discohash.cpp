@@ -143,21 +143,8 @@ uint64_t *ds = (uint64_t *)disco_buf;
       round( seed64Arr, seed8Arr, 16 );
       round( ds, ds8, STATE   );
 
-      /**
-      printf("ds = %#018" PRIx64 " %#018" PRIx64 " %#018" PRIx64 " %#018" PRIx64 "\n",
-        ds[0], ds[1], ds[2], ds[3] );
-      **/
-
-      const uint8_t output[STATE] = {0};
-      uint64_t *h = (uint64_t *)output;
-
-      //h[0] = ds[1];
-      h[0] = ds[2];
-      h[1] = ds[3];
-
-      h[0] += h[1];
-
-      ((uint64_t *)out)[0] = h[0];
+      uint64_t h[4] = {ds[2] + ds[3], ds[3], ds[0] + ds[1], ds[1]};
+      memcpy(out, h, sizeof(h)/4); // 64 bits for now
 
       delete[] tempBuf;
     }
