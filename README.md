@@ -2,7 +2,7 @@
 
 #### **[2-5GB/s, passed SMHasher](https://github.com/rurban/smhasher/blob/master/doc/BEBB4185.txt)**  [![version](https://img.shields.io/npm/v/bebb4185.svg?label=&color=0080FF)](https://github.com/cris691/discohash/releases/latest) ![npm downloads](https://img.shields.io/npm/dt/bebb4185)
 
-**Discohash** (*also known as* **BEBB4185**) is a super simple and super fast hash that passes all of SMHasher, and runs at 2-5GB/s (depending on hardware) in this naive, portable, serial implementation.
+**Discohash** (*also known as* **BEBB4185**) is a super simple and super fast hash that passes all of SMHasher, and runs at 8-10GB/s (depending on hardware) in this naive, portable, serial implementation.
 
 There's also a [go implementation](https://github.com/dgryski/go-disco) *I haven't tested it but it's cool that someone did it!* :p ;) xx
 
@@ -34,8 +34,9 @@ Submit your results as PR requests updating the README to a link to your analysi
 - one of the fastest hashes ever benchmarked at [ecrypt](https://bench.cr.yp.to/impl-hash/bebb4185.html)
 - [ECRYPT](https://bench.cr.yp.to/impl-hash/bebb4185.html) benchmark is 4x faster than [BLAKE3](https://bench.cr.yp.to/impl-hash/blake3.html)
 - Mix is super simple.
-- Tested at ~ 5GB/s @ 3Gz, (Google Cloud Platform, N1 CPU)
-- Passes all SMHasher tests. 
+- Tested at ~ 9GB/s @ 3Gz, (MacBook Air 2020, M1 CPU)
+- Passes all SMHasher tests.
+- Flexible output sizes 64 to 256 bits. 
 - *Also known as*: **BEBB4185**
 - Implemented in C++, and also a port to JS
 - This repo includes a simple CLI app for hashing files or stdin from the command line.
