@@ -4,6 +4,7 @@
 // https://github.com/cris691/discohash
 #include <cstdio>
 #include <inttypes.h>
+#include <cstring>
 #include "discohash.h"
 
 const int STATE = 32;
@@ -14,8 +15,7 @@ const int STATE64M = STATE64-1;
 alignas(uint64_t) uint8_t disco_buf[STATE] = {0};
 uint64_t P = 0xFFFFFFFFFFFFFFFF - 58;
 uint64_t Q = 13166748625691186689U;
-uint8_t *ds8 = (uint8_t *)disco_buf;
-uint32_t *ds32 = (uint32_t *)disco_buf;
+alignas(uint64_t) uint8_t *ds8 = (uint8_t *)disco_buf;
 uint64_t *ds = (uint64_t *)disco_buf;
 
   //--------
@@ -43,16 +43,6 @@ uint64_t *ds = (uint64_t *)disco_buf;
       if (n)
           v = (v >> n) | (v << (8-n));
       return v; 
-    }
-
-    static inline void mixA()
-    {
-      int i = ds32[0] & 1;
-      int j = ds32[3] & 3;
-
-      ds[0] = rot(ds[0], ds[i]);
-      ds[i] *= (P % (ds32[j] + 1) + 1);
-      ds[1] += ds32[j];
     }
 
     static inline void mix(const int A)
@@ -86,11 +76,13 @@ uint64_t *ds = (uint64_t *)disco_buf;
         counter += ~m64[index] + 1;
         if ( sindex == HSTATE64M ) {
           mix(0);
+          sindex++;
         } else if ( sindex == STATE64M ) {
           mix(2);
-          sindex = -1;
+          sindex = 0;
+        } else {
+          sindex++;
         }
-        sindex++;
       }
 
       mix(1);
@@ -102,9 +94,10 @@ uint64_t *ds = (uint64_t *)disco_buf;
         counter8 += ~m8[sindex] + 1;
         mix(index%STATE64M);
         if ( sindex >= STATEM ) {
-          sindex = -1;
+          sindex = 0;
+        } else {
+          sindex++;
         }
-        sindex++;
       }
 
       mix(0);
@@ -117,6 +110,11 @@ uint64_t *ds = (uint64_t *)disco_buf;
 
     void BEBB4185_64 ( const void * key, int len, unsigned seed, void * out )
     {
+      int tempLen = len;
+      if ( tempLen == 0 ) {
+        tempLen = 1;
+      }
+      alignas(uint64_t) uint8_t* tempBuf = new uint8_t[tempLen];
       const uint8_t *key8Arr = (uint8_t *)key;
       const uint64_t *key64Arr = (uint64_t *)key;
 
@@ -128,7 +126,6 @@ uint64_t *ds = (uint64_t *)disco_buf;
       // the cali number from the Matrix (1999)
       seed32Arr[0] = 0xc5550690;
       seed32Arr[0] -= seed;
-      // if seed mod doesn't work let's try reverse order of seed/key round calls
       seed32Arr[1] = 1 + seed;
       seed32Arr[2] = ~(1 - seed);
       seed32Arr[3] = (1+seed) * 0xf00dacca;
@@ -139,7 +136,10 @@ uint64_t *ds = (uint64_t *)disco_buf;
       ds[2] = 0xaccadacca80081e5;
       ds[3] = 0xf00baaf00f00baaa;
 
-      round( key64Arr, key8Arr, len );
+      memcpy(tempBuf, key, len);
+      uint64_t* temp64 = reinterpret_cast<uint64_t*>(tempBuf);
+
+      round( temp64, key8Arr, len );
       round( seed64Arr, seed8Arr, 16 );
       round( ds, ds8, STATE   );
 
@@ -158,4 +158,6 @@ uint64_t *ds = (uint64_t *)disco_buf;
       h[0] += h[1];
 
       ((uint64_t *)out)[0] = h[0];
+
+      delete[] tempBuf;
     }
