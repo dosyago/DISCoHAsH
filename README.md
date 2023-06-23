@@ -1,6 +1,6 @@
 # :dancers: [Discohash](https://github.com/cris691/discohash)
 
-#### **[2-5GB/s, passed SMHasher](https://github.com/rurban/smhasher/blob/master/doc/BEBB4185.txt)**  [![version](https://img.shields.io/npm/v/bebb4185.svg?label=&color=0080FF)](https://github.com/cris691/discohash/releases/latest) ![npm downloads](https://img.shields.io/npm/dt/bebb4185)
+#### **[8-10GB/s, passed SMHasher](https://github.com/rurban/smhasher/blob/master/doc/BEBB4185.txt)**  [![version](https://img.shields.io/npm/v/bebb4185.svg?label=&color=0080FF)](https://github.com/cris691/discohash/releases/latest) ![npm downloads](https://img.shields.io/npm/dt/bebb4185)
 
 **Discohash** (*also known as* **BEBB4185**) is a super simple and super fast hash that passes all of SMHasher, and runs at 8-10GB/s (depending on hardware) in this naive, portable, serial implementation.
 
