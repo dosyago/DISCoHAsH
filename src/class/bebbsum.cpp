@@ -23,6 +23,8 @@ void readFileToBuffer(const std::string& filename, std::vector<uint8_t>& buffer)
     std::streamsize size = file.tellg();
     file.seekg(0, std::ios::beg);
 
+    //size_t newSize = ((size + 7) / 8) * 8;  // Round up to nearest multiple of 8
+    //buffer.resize(newSize, 0);  // Resize and fill with zeros
     buffer.resize(size, 0);
 
     if (!file.read(reinterpret_cast<char*>(buffer.data()), size)) {
@@ -50,11 +52,13 @@ int main(int argc, char **argv) {
         buffer = std::vector<uint8_t>(inputChars.begin(), inputChars.end());
     }
 
+    DiscoHash hashObj;
     std::vector<uint8_t> hash(32);
-    BEBB4185_64(buffer.data(), buffer.size(), 0, hash.data());
+    hashObj.BEBB4185_64(buffer.data(), buffer.size(), 0, hash.data());
 
     printf("%#018" PRIx64 "\n", *reinterpret_cast<uint64_t*>(hash.data()));
 
     return EXIT_SUCCESS;
 }
+
 
