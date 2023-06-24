@@ -1,4 +1,0 @@
-ABCDEFGHIJKLMNOPQRSTUVWXYZ
-0123456789
-This is a discohash//bebb4185 test file
-.
