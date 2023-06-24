@@ -77,13 +77,13 @@ Discohash's standard version employs an internal
 
 #### C++ Implementation:
 
+*The output has the same format as `shasum -a 256 myfile.txt`*
+
 ```console
 cd src
 ./build.sh
-./bin/discosum < 0xa2a647993898a3df.txt
-> 0xa2a647993898a3df
-./bin/discosum 0xa2a647993898a3df.txt
-> 0xa2a647993898a3df
+./bin/discosum myfile.txt
+> ... 256-bit hash value as hex ... myfile.txt
 ```
 
 #### JavaScript Implementation:
