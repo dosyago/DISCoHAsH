@@ -65,6 +65,8 @@ This function makes use of two 64-bit primes, `P` and `Q`, bit rotation, and XOR
 - P = 0xFFFFFFFFFFFFFFFF - 58 (largest 64-bit prime)
 - Q = 13166748625691186689 (random prime)
 
+Interestingly, P and Q have the interesting property that `P - Q = P ^ Q` (their difference equals their XOR).
+
 ### Standard Version
 
 Discohash's standard version employs an internal
