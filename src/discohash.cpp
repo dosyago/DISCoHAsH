@@ -1,7 +1,6 @@
 // also known as BEBB4185
 // Copyright 2020 Cris Stringfellow
-// Licensed under GPL-3.0
-// https://github.com/cris691/discohash
+// https://github.com/dosyago/discohash
 #include <cstdio>
 #include <inttypes.h>
 #include <cstring>
@@ -43,14 +42,12 @@ uint64_t *ds = (uint64_t *)disco_buf;
       ds[A] *= P;
       ds[A] = rot(ds[A], 23);
       ds[A] *= Q;
-      //ds[A] = rot(ds[A], 23);
       
       ds[B] ^= ds[A];
 
       ds[B] *= P;
       ds[B] = rot(ds[B], 23);
       ds[B] *= Q;
-      //ds[B] = rot(ds[B], 23);
     }
 
   //---------
