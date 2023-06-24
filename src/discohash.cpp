@@ -7,14 +7,14 @@
 #include <cstring>
 #include "discohash.h"
 
-const int STATE = 32;
-const int STATE64 = STATE >> 3;
-const int STATEM = STATE-1;
-const int HSTATE64M = (STATE64 >> 1)-1;
-const int STATE64M = STATE64-1;
+constexpr int STATE = 32;
+constexpr int STATE64 = STATE >> 3;
+constexpr int STATEM = STATE-1;
+constexpr int HSTATE64M = (STATE64 >> 1)-1;
+constexpr int STATE64M = STATE64-1;
 alignas(uint64_t) uint8_t disco_buf[STATE] = {0};
-uint64_t P = 0xFFFFFFFFFFFFFFFF - 58;
-uint64_t Q = 13166748625691186689U;
+constexpr uint64_t P = 0xFFFFFFFFFFFFFFFF - 58;
+constexpr uint64_t Q = 13166748625691186689U;
 alignas(uint64_t) uint8_t *ds8 = (uint8_t *)disco_buf;
 uint64_t *ds = (uint64_t *)disco_buf;
 
@@ -134,8 +134,11 @@ uint64_t *ds = (uint64_t *)disco_buf;
       round( seed64Arr, seed8Arr, 16 );
       round( ds, ds8, STATE   );
 
-      uint64_t h[4] = {ds[2] + ds[3], ds[3], ds[0] + ds[1], ds[1]};
-      memcpy(out, h, sizeof(h)/4); // 64 bits for now
+      uint64_t h[4] = {ds[2] + ds[3], ds[3] ^ ds[2], ds[0] + ds[1], ds[1] + ds[0]}; // full 256-bit output
+
+      //uint64_t h[1] = {ds[2] + ds[3]}; // 64-bit output
+
+      memcpy(out, h, sizeof(h)); 
 
       delete[] tempBuf;
     }
