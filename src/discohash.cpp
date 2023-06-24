@@ -134,7 +134,7 @@ uint64_t *ds = (uint64_t *)disco_buf;
       round( seed64Arr, seed8Arr, 16 );
       round( ds, ds8, STATE   );
 
-      uint64_t h[4] = {ds[2] + ds[3], ds[3] ^ ds[2], ds[0] + ds[1], ds[1] + ds[0]}; // full 256-bit output
+      uint64_t h[4] = {ds[2] + ds[3], ds[3] ^ ds[2], ds[0] + ds[1], ds[1] ^ ds[0]}; // full 256-bit output
 
       //uint64_t h[1] = {ds[2] + ds[3]}; // 64-bit output
 
