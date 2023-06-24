@@ -31,30 +31,34 @@ void readFileToBuffer(const std::string& filename, std::vector<uint8_t>& buffer)
 }
 
 int main(int argc, char **argv) {
-    SET_BINARY_MODE(stdin);
-    std::vector<uint8_t> buffer;
-    std::string filename;
+  SET_BINARY_MODE(stdin);
+  std::vector<uint8_t> buffer;
+  std::string filename;
 
-    if (argc > 1) {
-        filename = argv[1];
-        if(filename != "-") {
-            readFileToBuffer(filename, buffer);
-        } else {
-            std::istreambuf_iterator<char> begin(std::cin), end;
-            std::vector<char> inputChars(begin, end);
-            buffer = std::vector<uint8_t>(inputChars.begin(), inputChars.end());
-        }
-    } else {
-        std::istreambuf_iterator<char> begin(std::cin), end;
-        std::vector<char> inputChars(begin, end);
-        buffer = std::vector<uint8_t>(inputChars.begin(), inputChars.end());
-    }
+  if (argc > 1) {
+      filename = argv[1];
+      if(filename != "-") {
+          readFileToBuffer(filename, buffer);
+      } else {
+          std::istreambuf_iterator<char> begin(std::cin), end;
+          std::vector<char> inputChars(begin, end);
+          buffer = std::vector<uint8_t>(inputChars.begin(), inputChars.end());
+      }
+  } else {
+      std::istreambuf_iterator<char> begin(std::cin), end;
+      std::vector<char> inputChars(begin, end);
+      buffer = std::vector<uint8_t>(inputChars.begin(), inputChars.end());
+  }
 
-    std::vector<uint8_t> hash(32);
-    BEBB4185_64(buffer.data(), buffer.size(), 0, hash.data());
+  std::vector<uint64_t> hash(4);
+  BEBB4185_64(buffer.data(), buffer.size(), 0, hash.data());
 
-    printf("%#018" PRIx64 "\n", *reinterpret_cast<uint64_t*>(hash.data()));
+  for (int i = 0; i < 4; ++i) {
+    printf("%016" PRIx64, hash[i]);
+  }
 
-    return EXIT_SUCCESS;
+  printf(" %s\n", filename.c_str());
+
+  return EXIT_SUCCESS;
 }
 
