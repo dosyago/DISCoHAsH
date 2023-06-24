@@ -32,7 +32,7 @@ This repository features a portable, serial implementation in C++. Moreover, an 
 
 We extend an open invitation to the cryptographic community for cryptanalysis of Discohash, particularly focusing on the 128-bit variant. This is an excellent opportunity for cryptographers and security enthusiasts to evaluate the strength of Discohash.
 
-If you are able to make a breakthrough or conduct significant analysis, please submit your results as Pull Requests, updating the README with a link to your analysis. Alternatively, [contact Cris](mailto:cris@dosycorp.com) directly for communication.
+If you are able to make a breakthrough or conduct significant analysis, please submit your results as Pull Requests, updating the README with a link to your analysis. Alternatively, you can [contact Cris (me, the author)](mailto:cris@dosyago.com) directly.
 
 *Important Note: To focus on the 128-bit variants, you must modify the source files in C/C++.*
 
