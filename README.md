@@ -1,4 +1,4 @@
-# 🚀 [Discohash](https://github.com/dosyago/discohash) - A Blend of Simplicity and Performance in Hashing
+# 🚀 [DISCoHAsH](https://github.com/dosyago/discohash) - A Blend of Simplicity and Performance in Hashing
 
 [![version](https://img.shields.io/npm/v/bebb4185.svg?label=&color=0080FF)](https://github.com/cris691/discohash/releases/latest) ![npm downloads](https://img.shields.io/npm/dt/bebb4185)
 
@@ -8,9 +8,9 @@
 
 ## Introduction
 
-**Discohash**, also known as **BEBB4185**, is a straightforward and high-performance hash function that combines simplicity with impressive performance. While there are several great high-speed hash functions available, Discohash stands out for its elementary implementation, not relying on architecture-specific optimizations, and still delivering commendable speed and quality. It’s not the fastest nor the best in quality, but its simplicity and portability make it an excellent choice for various applications.
+**DISCoHAsH**, also known as **BEBB4185** or just **discohash**, is a straightforward and high-performance hash function that combines simplicity with impressive performance. While there are several great high-speed hash functions available, DISCoHAsH stands out for its elementary implementation, not relying on architecture-specific optimizations, and still delivering commendable speed and quality. It’s not the fastest nor the best in quality, but its simplicity and portability make it an excellent choice for various applications.
 
-Discohash has passed all the tests in SMHasher and clocks in at 8-10GB/s, depending on hardware. It's one of the fastest hash functions as per [SUPERCOP ECRYPT benchmark](https://bench.cr.yp.to/impl-hash/bebb4185.html).
+DISCoHAsH has passed all the tests in SMHasher and clocks in at 8-10GB/s, depending on hardware. It's one of the fastest hash functions as per [SUPERCOP ECRYPT benchmark](https://bench.cr.yp.to/impl-hash/bebb4185.html).
 
 This repository features a portable, serial implementation in C++. Moreover, an unofficial Go port is available [here](https://github.com/dgryski/go-disco), and there's also a JavaScript version.
 
@@ -30,7 +30,7 @@ This repository features a portable, serial implementation in C++. Moreover, an 
 
 ## In-depth Cryptanalysis
 
-We extend an open invitation to the cryptographic community for cryptanalysis of Discohash, particularly focusing on the 128-bit variant. This is an excellent opportunity for cryptographers and security enthusiasts to evaluate the strength of Discohash.
+We extend an open invitation to the cryptographic community for cryptanalysis of DISCoHAsH, particularly focusing on the 128-bit variant. This is an excellent opportunity for cryptographers and security enthusiasts to evaluate the strength of Discohash.
 
 If you are able to make a breakthrough or conduct significant analysis, please submit your results as Pull Requests, updating the README with a link to your analysis. Alternatively, you can [contact Cris (me, the author)](mailto:cris@dosyago.com) directly.
 
