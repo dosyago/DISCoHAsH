@@ -28,6 +28,10 @@ This repository features a portable, serial implementation in C++. Moreover, an 
 
 ---
 
+## Elementary Cryptanalysis
+
+[Doing elementary cryptanalysis on DISCoHAsH with ChatGPT assisting.](https://sharegpt.com/c/MYcTWEO)
+
 ## In-depth Cryptanalysis
 
 We extend an open invitation to the cryptographic community for cryptanalysis of DISCoHAsH, particularly focusing on the 128-bit variant. This is an excellent opportunity for cryptographers and security enthusiasts to evaluate the strength of Discohash.
