@@ -43,6 +43,7 @@ int main(int argc, char **argv) {
   std::string outputFilename;
   bool infiniteMode = false;
   FILE* outputFile = stdout; // Default to stdout
+  int outputWords = 4;
 
   // Handle flags and arguments
   for (int i = 1; i < argc; i++) {
@@ -58,6 +59,17 @@ int main(int argc, char **argv) {
         }
       } else {
         std::cerr << "Error: --outfile option requires a filename argument." << std::endl;
+        return EXIT_FAILURE;
+      }
+    } else if (strcmp(argv[i], "--words") == 0) {
+      if (i + 1 < argc) {
+        outputWords = std::stoi(argv[++i]);
+        if (outputWords < 1 || outputWords > 4) {
+          std::cerr << "Error: --words option requires an integer between 1 and 4." << std::endl;
+          return EXIT_FAILURE;
+        }
+      } else {
+        std::cerr << "Error: --words option requires an integer argument." << std::endl;
         return EXIT_FAILURE;
       }
     } else {
@@ -91,7 +103,7 @@ int main(int argc, char **argv) {
     }
   } else {
     BEBB4185_64(buffer.data(), buffer.size(), 0, hash.data());
-    for (int i = 0; i < 4; ++i) {
+    for (int i = 0; i < outputWords; ++i) {
       fprintf(outputFile, "%016" PRIx64, hash[i]);
     }
     fprintf(outputFile, " %s\n", filename.c_str());
