@@ -23,7 +23,7 @@ while true; do
     #echo -n "$output"
 
     # Check if the 4 two bytes are 0x00
-    if [[ "${output:0:8}" == "00000000" ]]; then
+    if [[ "${output:0:4}" == "0000" ]]; then
         echo "Found hash with first 4 bytes 0x00 after $count iterations."
         break
     fi
