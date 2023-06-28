@@ -32,26 +32,41 @@ void readFileToBuffer(const std::string& filename, std::vector<uint8_t>& buffer)
 }
 
 void readStdinToBuffer(std::vector<uint8_t>& buffer) {
-  std::istreambuf_iterator<char> begin(std::cin), end;
-  std::vector<char> inputChars(begin, end);
+  alignas(uint64_t)std::istreambuf_iterator<char> begin(std::cin), end;
+  alignas(uint64_t)std::vector<char> inputChars(begin, end);
   buffer = std::vector<uint8_t>(inputChars.begin(), inputChars.end());
 }
 
 int main(int argc, char **argv) {
-  SET_BINARY_MODE(stdin);
-  
   alignas(uint64_t)std::vector<uint8_t> buffer;
   std::string filename;
+  std::string outputFilename;
   bool infiniteMode = false;
+  FILE* outputFile = stdout; // Default to stdout
 
   // Handle flags and arguments
   for (int i = 1; i < argc; i++) {
     if (strcmp(argv[i], "--infinite") == 0) {
-      SET_BINARY_MODE(stdout);
       infiniteMode = true;
+    } else if (strcmp(argv[i], "--outfile") == 0) {
+      if (i + 1 < argc) {
+        outputFilename = argv[++i];
+        outputFile = fopen(outputFilename.c_str(), "wb");
+        if (!outputFile) {
+          std::cerr << "Error: Unable to open output file: " << outputFilename << std::endl;
+          return EXIT_FAILURE;
+        }
+      } else {
+        std::cerr << "Error: --outfile option requires a filename argument." << std::endl;
+        return EXIT_FAILURE;
+      }
     } else {
       filename = argv[i];
     }
+  }
+
+  if (infiniteMode && outputFile == stdout) {
+    SET_BINARY_MODE(stdout);
   }
 
   bool readFromFile = !filename.empty() && filename != "-";
@@ -69,17 +84,22 @@ int main(int argc, char **argv) {
     std::vector<uint8_t> input = buffer;
     while (true) {
       BEBB4185_64(input.data(), input.size(), 0, hash.data());
-      std::fwrite(hash.data(), sizeof(uint64_t), 4, stdout);
-      std::fflush(stdout); // make sure it's written
+      std::fwrite(hash.data(), sizeof(uint64_t), 4, outputFile);
+      std::fflush(outputFile); // make sure it's written
       // Reuse the same memory buffer as input for the next iteration
       std::memcpy(input.data(), hash.data(), sizeof(uint64_t) * 4);
     }
   } else {
     BEBB4185_64(buffer.data(), buffer.size(), 0, hash.data());
     for (int i = 0; i < 4; ++i) {
-      printf("%016" PRIx64, hash[i]);
+      fprintf(outputFile, "%016" PRIx64, hash[i]);
     }
-    printf(" %s\n", filename.c_str());
+    fprintf(outputFile, " %s\n", filename.c_str());
+  }
+
+  // Close the output file if it's not stdout
+  if (outputFile != stdout) {
+    fclose(outputFile);
   }
 
   return EXIT_SUCCESS;
