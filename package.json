@@ -1,14 +1,14 @@
 {
   "name": "@dosy/discohash",
-  "version": "1.1.5",
-  "description": "A super-fast SMHasher-passing non-cryptographic hash function.",
+  "version": "2.0",
+  "description": "A fast, high-qaulity hash in 120 lines.",
   "main": "js/index.js",
   "scripts": {
-    "test": "node -r esm js/test.js"
+    "test": "node js/test.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/cris691/discohash.git"
+    "url": "git+https://github.com/dosyago/discohash.git"
   },
   "keywords": [
     "smhasher",
@@ -23,11 +23,9 @@
   "author": "@dosy",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/cris691/discohash/issues"
+    "url": "https://github.com/dosyago/discohash/issues"
   },
-  "homepage": "https://github.com/cris691/discohash#readme",
-  "dependencies": {
-    "esm": "^3.2.25"
-  },
+  "homepage": "https://github.com/dosyago/discohash#readme",
+  "dependencies": {},
   "devDependencies": {}
 }
