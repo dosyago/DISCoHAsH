@@ -19,13 +19,14 @@ while true; do
 
     # Display the hash and count
     output="${output// /}"
-    echo "$count: $output"
-    #echo -n "$output"
+    #echo "$count: $output"
+    echo -n "$output"
 
     # Check if the 4 two bytes are 0x00
     if [[ "${output:0:4}" == "0000" ]]; then
-        echo "Found hash with first 4 bytes 0x00 after $count iterations."
-        break
+      echo -n ""
+      #echo "Found hash with first 4 bytes 0x00 after $count iterations."
+      #break
     fi
 
     # Set the output as the new input for the next iteration
