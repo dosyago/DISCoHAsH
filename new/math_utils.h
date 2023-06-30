@@ -1,23 +1,35 @@
 // math_utils.h
 
 #pragma once
+#include <string>
 #include <cstdint>
 #include <random>
 
 namespace math_utils {
   inline std::vector<uint64_t> prime_factors(uint64_t n) {
       std::vector<uint64_t> factors;
-      for (uint64_t d = 2; d * d <= n; ++d) {
-          while (n % d == 0) {
-              factors.push_back(d);
-              n /= d;
+      // Divide n by 2
+      if (n % 2 == 0) {
+          factors.push_back(2);
+          while (n % 2 == 0) {
+              n = n / 2;
           }
       }
-      if (n > 1) {
+
+      // Divide n by odd numbers starting from 3
+      for (uint64_t i = 3; i * i <= n; i = i + 2) {
+          if (n % i == 0) {
+              factors.push_back(i);
+              while (n % i == 0) {
+                  n = n / i;
+              }
+          }
+      }
+
+      // If n is a prime number greater than 2
+      if (n > 2) {
           factors.push_back(n);
       }
-      
-      std::sort(factors.begin(), factors.end()); // Sort the factors
 
       return factors;
   }
@@ -83,6 +95,18 @@ namespace math_utils {
 
       return true; // n is probably prime
   }
+
+  inline std::string uint128_to_string(__uint128_t value) {
+      std::string result;
+      do {
+          char digit = '0' + value % 10;
+          result = digit + result;
+          value /= 10;
+      } while (value != 0);
+
+      return result;
+  }
+
 }
 
 

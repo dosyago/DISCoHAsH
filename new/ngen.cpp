@@ -9,27 +9,30 @@ std::vector<uint64_t> find_generator_set(uint64_t p, uint64_t q) {
     
     // Factorize phi
     auto factors = math_utils::prime_factors(phi);
+    std::cout << "Prime factors:";
+    for (uint64_t factor : factors) {
+        std::cout << " " << factor;
+    }
+    std::cout << std::endl;
     
     std::vector<uint64_t> generators;
 
-    // Loop through each element 'a' in (Z/nZ)* and check if it is a generator
     for (uint64_t a = 2; a < n; a++) {
         bool is_generator = true;
         for (uint64_t factor : factors) {
-            // Check if a^(phi/factor) mod n is 1 for any factor of phi
-            if (math_utils::mod_pow(a, phi / factor, n) == 1) {
+            uint64_t exp = phi / factor;
+            uint64_t result = math_utils::mod_pow(a, exp, n);
+            //std::cout << "Checking " << a << "^(phi/" << factor << ") = " << a << "^(" << exp << ") mod " << n << " = " << result << std::endl;  // Debug output
+            if (result == 1) {
                 is_generator = false;
                 break;
             }
-        }
-        // Additional check to ensure a^phi mod n is 1
-        if (is_generator && math_utils::mod_pow(a, phi, n) != 1) {
-            is_generator = false;
         }
         if (is_generator) {
             generators.push_back(a);
         }
     }
+
     
     return generators;
 }
@@ -49,23 +52,27 @@ int main(int argc, char* argv[]) {
     for (auto& gen : generators) {
         std::cout << gen << " ";
     }
+    std::cout << std::endl;
+
+    __uint128_t n = p*q;
+    __uint128_t phi = (p - 1) * (q - 1);
+    
+    std::cout << "The order of (Z/" << math_utils::uint128_to_string(n) << "Z)* is: " << math_utils::uint128_to_string(phi) << std::endl;
     std::cout << "\n\nAnd, guess what? Here are the orders of each generator:" << std::endl;
     
-    uint64_t n = p * q;
-    uint64_t phi = (p - 1) * (q - 1);
-    
     for (auto& gen : generators) {
-        uint64_t r = gen;
         uint64_t order = 1;
-        // Magic optimization here!
+        uint64_t value = gen;
         while (true) {
-            r = (r * gen) % n;
-            if (r == 1) break;
+            value = (value * gen) % n;
             order++;
+            // Check if it cycles back to itself
+            if (value == gen) {
+                break;
+            }
         }
-        
         std::cout << "The order of " << gen << " is: " << order << std::endl;
-    } 
+    }
 
     std::cout << "Keep rocking the number theory! 🚀\n";
     return 0;
