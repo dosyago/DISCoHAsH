@@ -3,10 +3,13 @@ CXXFLAGS = -std=c++17 -march=native -O3
 OUTPUT_DIR = bin
 
 
-all: $(OUTPUT_DIR) gen els ngen
+all: $(OUTPUT_DIR) gen els ngen inv
 
 $(OUTPUT_DIR):
 	mkdir -p $(OUTPUT_DIR)
+
+inv: inv.cpp
+	$(CXX) $(CXXFLAGS) -o $(OUTPUT_DIR)/inv inv.cpp
 
 gen: gen.cpp 
 	$(CXX) $(CXXFLAGS) -o $(OUTPUT_DIR)/gen gen.cpp
