@@ -1,6 +1,12 @@
-// also known as BEBB4185
-// Copyright 2020 Cris Stringfellow
+// DISCoHAsH 512 - crypto hash 
 // https://github.com/dosyago/discohash
+//   Copyright 2023 Cris Stringfellow & The Dosyago Corporation
+//
+//   Licensed under the Apache License, Version 2.0 (the "License");
+//   you may not use this file except in compliance with the License.
+//   You may obtain a copy of the License at
+//
+//       http://www.apache.org/licenses/LICENSE-2.0
 #include <cstdio>
 #include <inttypes.h>
 #include <cstring>
@@ -15,7 +21,7 @@ constexpr int STATE64M = STATE64-1;
 constexpr int HSTATE64M = HSTATE64-1;
 alignas(uint64_t) uint8_t disco_c_buf[STATE] = {0};
 constexpr uint64_t P = 0xFFFFFFFFFFFFFFFF - 58;
-constexpr uint64_t Q = 13166748625691186689U;
+constexpr uint64_t Q = UINT64_C(13166748625691186689);
 alignas(uint64_t) uint8_t *dcs8 = (uint8_t *)disco_c_buf;
 uint64_t *dcs = (uint64_t *)disco_c_buf;
 
@@ -86,7 +92,6 @@ uint64_t *dcs = (uint64_t *)disco_c_buf;
     mix(3);
     mix(5);
 
-
     index <<= 3;
     sindex = index&(STATEM);
     for( ; index < len; index++) {
@@ -124,21 +129,21 @@ uint64_t *dcs = (uint64_t *)disco_c_buf;
     uint32_t *seed32Arr = (uint32_t *)seedbuf;
 
     // the cali number from the Matrix (1999)
-    seed32Arr[0] = 0xc5550690;
+    seed32Arr[0] = UINT32_C(0xc5550690);
     seed32Arr[0] -= seed;
     seed32Arr[1] = 1 + seed;
     seed32Arr[2] = ~(1 - seed);
-    seed32Arr[3] = (1+seed) * 0xf00dacca;
+    seed32Arr[3] = (1+seed) * UINT32_C(0xf00dacca);
 
     // nothing up my sleeve
-    dcs[0] = 0x123456789abcdef0;
-    dcs[1] = 0x0fedcba987654321;
-    dcs[2] = 0xaccadacca80081e5;
-    dcs[3] = 0xf00baaf00f00baaa;
-    dcs[4] = 0xbeefdeadbeefc0de;
-    dcs[5] = 0xabad1deafaced00d;
-    dcs[6] = 0xfaceb00cfacec0de;
-    dcs[7] = 0xdeadc0dedeadbeef;
+    dcs[0] = UINT64_C(0x123456789abcdef0);
+    dcs[1] = UINT64_C(0x0fedcba987654321);
+    dcs[2] = UINT64_C(0xaccadacca80081e5);
+    dcs[3] = UINT64_C(0xf00baaf00f00baaa);
+    dcs[4] = UINT64_C(0xbeefdeadbeefc0de);
+    dcs[5] = UINT64_C(0xabad1deafaced00d);
+    dcs[6] = UINT64_C(0xfaceb00cfacec0de);
+    dcs[7] = UINT64_C(0xdeadc0dedeadbeef);
 
     memcpy(tempBuf, key, len);
     uint64_t* temp64 = reinterpret_cast<uint64_t*>(tempBuf);
@@ -148,7 +153,7 @@ uint64_t *dcs = (uint64_t *)disco_c_buf;
     round( dcs, dcs8, STATE );
 
     // 512-bit internal state 256-bit output
-    uint64_t h[4] = {0}; // This will hold the final 256-bit output
+    uint64_t h[4] = {0}; // This will hold the final output
 
     h[0] -= dcs[2];
     h[0] -= dcs[3];

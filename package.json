@@ -2,6 +2,7 @@
   "name": "@dosy/discohash",
   "version": "2.0",
   "description": "A fast, high-qaulity hash in 120 lines.",
+  "type": "module",
   "main": "js/index.js",
   "scripts": {
     "test": "node js/test.js"
@@ -26,6 +27,7 @@
     "url": "https://github.com/dosyago/discohash/issues"
   },
   "homepage": "https://github.com/dosyago/discohash#readme",
-  "dependencies": {},
-  "devDependencies": {}
+  "dependencies": {
+    "bigint-crypto-utils": "^3.3.0"
+  }
 }

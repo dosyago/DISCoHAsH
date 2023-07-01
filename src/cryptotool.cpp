@@ -95,14 +95,14 @@ int main(int argc, char **argv) {
   if (infiniteMode) {
     std::vector<uint8_t> input = buffer;
     while (true) {
-      DISCoHAsH_64(input.data(), input.size(), 0, hash.data());
+      DISCoHAsH_512_64(input.data(), input.size(), 0, hash.data());
       std::fwrite(hash.data(), sizeof(uint64_t), 4, outputFile);
       std::fflush(outputFile); // make sure it's written
       // Reuse the same memory buffer as input for the next iteration
       std::memcpy(input.data(), hash.data(), sizeof(uint64_t) * 4);
     }
   } else {
-    DISCoHAsH_64(buffer.data(), buffer.size(), 0, hash.data());
+    DISCoHAsH_512_64(buffer.data(), buffer.size(), 0, hash.data());
     for (int i = 0; i < outputWords; ++i) {
       fprintf(outputFile, "%016" PRIx64, hash[i]);
     }

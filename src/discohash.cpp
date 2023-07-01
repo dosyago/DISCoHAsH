@@ -129,11 +129,14 @@ uint64_t *ds = (uint64_t *)disco_buf;
     round( seed64Arr, seed8Arr, 16 );
     round( ds, ds8, STATE );
 
-    // 256-bit internal state 64-bit output
-    uint64_t h[1] = {0}; 
+    // 256-bit internal state 256-bit output
+    uint64_t h[4] = {0, ds[2] ^ ds[3], 0, ds[0] ^ ds[1]}; 
 
     h[0] -= ds[2];
     h[0] -= ds[3];
+
+    h[2] -= ds[0];
+    h[2] -= ds[1];
 
     memcpy(out, h, sizeof(h));  // divide by 4 as smhasher only uses 64 bits
 
