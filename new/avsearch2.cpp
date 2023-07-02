@@ -83,7 +83,7 @@ int main() {
     std::mt19937_64 gen(rd());
     std::uniform_int_distribution<uint64_t> dist(1ULL << 63, ((1ULL << 63) - 1) + (1ULL << 63));
 
-    const int num_samples = 100;
+    const int num_samples = 10000;
 
     std::vector<AvalancheStatistics> results;
 
