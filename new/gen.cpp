@@ -23,7 +23,7 @@ uint64_t find_generator(const std::vector<uint64_t>& factors, uint64_t p) {
     std::cout << "Searching for a generator modulo " << p << "..." << std::endl;
 
     std::mt19937_64 rng(std::random_device{}());
-    std::uniform_int_distribution<uint64_t> dist(2, p - 2);
+    std::uniform_int_distribution<uint32_t> dist(2, floor(sqrt(p)));
 
     uint64_t g;
     bool is_generator;
