@@ -6,6 +6,10 @@
 #include <random>
 
 namespace math_utils {
+  int hamming_distance(uint64_t a, uint64_t b) {
+      return std::bitset<64>(a ^ b).count();
+  }
+
   inline std::vector<uint64_t> prime_factors(uint64_t n) {
       std::vector<uint64_t> factors;
       // Divide n by 2
@@ -96,6 +100,82 @@ namespace math_utils {
       return true; // n is probably prime
   }
 
+  std::vector<uint64_t> factorize_source(uint64_t p) {
+      std::cout << "factoring " << p - 1 << " (p-1)..." << std::endl;
+
+      std::vector<uint64_t> factors = prime_factors(p - 1); // Use prime_factors from math_utils
+      
+      std::cout << "factors of " << p - 1 << ": ";
+      for (const auto& factor : factors) {
+          std::cout << factor << " ";
+      }
+      std::cout << "\nfactoring complete." << std::endl;
+
+      return factors;
+  }
+
+  uint64_t find_generator(const std::vector<uint64_t>& factors, uint64_t p) {
+      std::mt19937_64 rng(std::random_device{}());
+      std::uniform_int_distribution<uint32_t> dist(2, floor(sqrt(p)));
+
+      uint64_t g;
+      bool is_generator;
+      while (true) {
+          g = dist(rng);
+          is_generator = true;
+
+          for (uint64_t q : factors) {
+              uint64_t dividend = (p - 1) / q;
+              uint64_t congruence = mod_pow(g, dividend, p);
+
+              if (congruence == 1) {
+                  is_generator = false;
+                  break;
+              }
+          }
+
+          if (is_generator) {
+              return g;
+          }
+      }
+  }
+
+  uint64_t find_first_generator(const std::vector<uint64_t>& factors, uint64_t p) {
+      for (uint64_t g = 2; g < p; g++) {
+          bool is_generator = true;
+          for (uint64_t q : factors) {
+              uint64_t dividend = (p - 1) / q;
+              uint64_t congruence = mod_pow(g, dividend, p);
+
+              if (congruence == 1) {
+                  is_generator = false;
+                  break;
+              }
+          }
+
+          if (is_generator) {
+              return g;
+          }
+      }
+
+      throw std::runtime_error("Could not find a generator. Make sure p is a prime number greater than 2.");
+  }
+
+  uint64_t find_generator_balanced(uint64_t p) {
+      const std::vector<uint64_t> factors = factorize_source(p);
+      std::mt19937_64 rng(std::random_device{}());
+      std::uniform_int_distribution<int> method_dist(0, 1); // 0 or 1 to choose the method
+
+      if (method_dist(rng) == 0) {
+          std::cout << "Using the random approach to find generator." << std::endl;
+          return find_generator(factors, p);
+      } else {
+          std::cout << "Using the sequential approach to find generator." << std::endl;
+          return find_first_generator(factors, p);
+      }
+  }
+
+
   inline std::string uint128_to_string(__uint128_t value) {
       std::string result;
       do {
@@ -107,6 +187,22 @@ namespace math_utils {
       return result;
   }
 
+  inline uint64_t random_large_prime(int bits = 64) {
+      std::mt19937_64 rng(std::random_device{}());
+      std::uniform_int_distribution<uint64_t> dist(1ULL << (bits-1), ((1ULL << (bits-1)) - 1) + (1ULL << (bits-1)));
+
+      uint64_t candidate;
+      do {
+          candidate = dist(rng);
+          if (candidate % 2 == 0) continue; // ensure odd candidate
+      } while (!miller_rabin_test(candidate, 20)); // 20 iterations for Miller-Rabin
+
+      return candidate;
+  }
+
+  inline bool is_prime(uint64_t n) {
+      return miller_rabin_test(n, 20);
+  }
 }
 
 
