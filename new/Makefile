@@ -1,3 +1,4 @@
+CXXP = /usr/local/opt/llvm/bin/clang++ 
 CXX = clang++
 CXXFLAGS = -std=c++17 -march=native -O3 
 OUTPUT_DIR = bin
@@ -9,7 +10,7 @@ $(OUTPUT_DIR):
 	mkdir -p $(OUTPUT_DIR)
 
 avsearch2: avsearch2.cpp
-	$(CXX) $(CXXFLAGS) -o $(OUTPUT_DIR)/avsearch2 avsearch2.cpp
+	$(CXXP) $(CXXFLAGS) -fopenmp -o $(OUTPUT_DIR)/avsearch2 avsearch2.cpp
 
 avasearch: avasearch.cpp
 	$(CXX) $(CXXFLAGS) -o $(OUTPUT_DIR)/avasearch avasearch.cpp

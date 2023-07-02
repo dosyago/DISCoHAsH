@@ -8,6 +8,7 @@
 #include <algorithm>
 #include <string>
 #include <sstream>
+#include <omp.h>
 #include "math_utils.h"
 
 struct AvalancheStatistics {
@@ -85,11 +86,18 @@ int main() {
 
     std::vector<AvalancheStatistics> results;
 
+    #pragma omp parallel for // This tells OpenMP to parallelize the following loop
     for (int i = 0; i < num_samples; i++) {
-        uint64_t P = math_utils::random_large_prime(); // You may need to define random_large_prime() to generate random large prime numbers
-        uint64_t G = math_utils::find_generator_balanced(P); // Assuming find_generator returns a generator for the given prime P
-        
-        results.push_back(avalanche_quality(P, G));
+        uint64_t P = math_utils::random_large_prime();
+        std::vector<uint64_t> factors = math_utils::factorize_source(P);
+        uint64_t G = math_utils::find_generator(factors, P);
+
+        AvalancheStatistics stat = avalanche_quality(P, G);
+
+        #pragma omp critical // This ensures that only one thread can access this block at a time
+        {
+            results.push_back(stat);
+        }
     }
     
     // Sort the results based on the ranking function
