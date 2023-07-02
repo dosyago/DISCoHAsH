@@ -2,8 +2,11 @@
 #include <bitset>
 #include <cstdint>
 
-const uint64_t PRIME = 13166748625691186689ULL;
-const uint64_t GENERATOR = 3180491373ULL;
+//const uint64_t PRIME = 13166748625691186689ULL;
+//const uint64_t GENERATOR = 3180491373ULL;
+
+const uint64_t PRIME = 1764231181088413613;
+const uint64_t GENERATOR = 1052833812310576281;
 
 uint64_t operation(uint64_t state, uint64_t message) {
     return (state + message) * GENERATOR % PRIME;
