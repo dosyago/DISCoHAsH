@@ -8,6 +8,7 @@
 #include <algorithm>
 #include <string>
 #include <sstream>
+#include <chrono>
 #include <omp.h>
 #include "math_utils.h"
 
@@ -60,8 +61,8 @@ AvalancheStatistics avalanche_quality(uint64_t P, uint64_t G) {
 }
 
 bool ranking_function(const AvalancheStatistics& a, const AvalancheStatistics& b) {
-    double score_a = 20 * std::abs(a.mean - 32) + 8 * a.stddev + 5 * a.zero_bits_percentage;
-    double score_b = 20 * std::abs(b.mean - 32) + 8 * b.stddev + 5 * b.zero_bits_percentage;
+    double score_a = 20 * std::abs(a.mean - 32) + 60 * a.stddev + 6 * a.zero_bits_percentage;
+    double score_b = 20 * std::abs(b.mean - 32) + 60 * b.stddev + 6 * b.zero_bits_percentage;
     return score_a < score_b;
 }
 
@@ -82,7 +83,7 @@ int main() {
     std::mt19937_64 gen(rd());
     std::uniform_int_distribution<uint64_t> dist(1ULL << 63, ((1ULL << 63) - 1) + (1ULL << 63));
 
-    const int num_samples = 10000;
+    const int num_samples = 100;
 
     std::vector<AvalancheStatistics> results;
 
@@ -103,7 +104,19 @@ int main() {
     // Sort the results based on the ranking function
     std::sort(results.begin(), results.end(), ranking_function);
 
-    std::ofstream file("avalanche_results.txt");
+    // Get the current time as timestamp
+    auto now = std::chrono::system_clock::now();
+    auto now_time_t = std::chrono::system_clock::to_time_t(now);
+    auto now_tm = std::localtime(&now_time_t);
+
+    // Format the timestamp
+    std::ostringstream timestamp;
+    timestamp << std::put_time(now_tm, "%Y-%m-%d_%H-%M-%S");
+
+    // Concatenate timestamp to filename
+    std::string filename = "avalanche_results_" + timestamp.str() + ".txt";
+
+    std::ofstream file(filename);
     for (const auto &res : results) {
         file << "P: " << res.P << ", G: " << res.G << ", Zero bits %: " << res.zero_bits_percentage;
         file << ", Mean: " << res.mean << ", Stddev: " << res.stddev << "\n";
