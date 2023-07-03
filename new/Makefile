@@ -3,10 +3,13 @@ CXX = clang++
 CXXFLAGS = -std=c++17 -march=native -O3
 OUTPUT_DIR = bin
 
-all: $(OUTPUT_DIR) $(OUTPUT_DIR)/pg_els $(OUTPUT_DIR)/avsearch3 $(OUTPUT_DIR)/avsearch2 $(OUTPUT_DIR)/avasearch $(OUTPUT_DIR)/ava3 $(OUTPUT_DIR)/ava2 $(OUTPUT_DIR)/ava $(OUTPUT_DIR)/inv $(OUTPUT_DIR)/gen $(OUTPUT_DIR)/els $(OUTPUT_DIR)/ngen
+all: $(OUTPUT_DIR) $(OUTPUT_DIR)/pg_els $(OUTPUT_DIR)/avsearch3 $(OUTPUT_DIR)/avsearch2 $(OUTPUT_DIR)/avasearch $(OUTPUT_DIR)/ava3 $(OUTPUT_DIR)/ava2 $(OUTPUT_DIR)/ava $(OUTPUT_DIR)/inv $(OUTPUT_DIR)/gen $(OUTPUT_DIR)/els $(OUTPUT_DIR)/ngen $(OUTPUT_DIR)/transform_1
 
 $(OUTPUT_DIR):
 	mkdir -p $(OUTPUT_DIR)
+
+$(OUTPUT_DIR)/transform_1: transform_1.cpp
+	$(CXX) $(CXXFLAGS) -o $@ $<
 
 $(OUTPUT_DIR)/pg_els: pg_els.cpp
 	$(CXX) $(CXXFLAGS) -o $@ $<
