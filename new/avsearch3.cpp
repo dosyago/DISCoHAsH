@@ -19,7 +19,7 @@ struct AvalancheStatistics {
   double mean;
   double stddev;
   std::map<int, int> histogram;
-  std::map<int, uint64_t> bit_position_changes;
+  std::vector<uint64_t> bit_position_changes; // Changed to vector
   double entropy;
 };
 
@@ -108,37 +108,34 @@ int main() {
   std::mt19937_64 gen(rd());
   std::uniform_int_distribution<uint64_t> dist(1ULL << 63, ((1ULL << 63) - 1) + (1ULL << 63));
 
-  const int num_samples = 100;
+  const int num_samples = 10000;
 
   std::vector<AvalancheStatistics> results;
 
-  #pragma omp parallel for // This tells OpenMP to parallelize the following loop
+  #pragma omp parallel for
   for (int i = 0; i < num_samples; i++) {
     uint64_t P = math_utils::random_large_prime();
-    std::vector<uint64_t> factors = math_utils::factorize_source(P);
-    uint64_t G = math_utils::find_generator(factors, P);
+    //std::vector<uint64_t> factors = math_utils::factorize_source(P);
+    //uint64_t G = math_utils::find_generator(factors, P);
+    uint64_t G = math_utils::find_generator_balanced(P);
 
     AvalancheStatistics stat = avalanche_quality(P, G);
 
-    #pragma omp critical // This ensures that only one thread can access this block at a time
+    #pragma omp critical
     {
       results.push_back(stat);
     }
   }
   
-  // Sort the results based on the ranking function
   std::sort(results.begin(), results.end(), ranking_function);
 
-  // Get the current time as timestamp
   auto now = std::chrono::system_clock::now();
   auto now_time_t = std::chrono::system_clock::to_time_t(now);
   auto now_tm = std::localtime(&now_time_t);
 
-  // Format the timestamp
   std::ostringstream timestamp;
   timestamp << std::put_time(now_tm, "%Y-%m-%d_%H-%M-%S");
 
-  // Concatenate timestamp to filename
   std::string filename = "avalanche_results_" + timestamp.str() + ".txt";
 
   std::ofstream file(filename);
@@ -149,7 +146,6 @@ int main() {
     file << "Bit position changes:\n" << generate_bit_position_histogram_string(res.bit_position_changes, 10000000) << "\n";
   }
 
-  // Print the top 50 results to stdout
   std::cout << "Top 50 results:\n";
   for (int i = 0; i < 50 && i < results.size(); i++) {
     std::cout << "P: " << results[i].P << ", G: " << results[i].G << ", Zero bits %: " << results[i].zero_bits_percentage;
