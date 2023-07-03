@@ -1,29 +1,41 @@
 #include <iostream>
 #include <bitset>
 #include <cstdint>
+#include <cstdlib>
+#include <random>
 
-//const uint64_t PRIME = 13166748625691186689ULL;
-//const uint64_t GENERATOR = 3180491373ULL;
-
-const uint64_t PRIME = 1764231181088413613;
-const uint64_t GENERATOR = 1052833812310576281;
-
-uint64_t operation(uint64_t state, uint64_t message) {
-    return (state + message) * GENERATOR % PRIME;
+uint64_t operation(uint64_t state, uint64_t message, uint64_t generator, uint64_t prime) {
+    return (state + message) * generator % prime;
 }
 
-int main() {
-    uint64_t original_state = 0x1234567890abcdef;
-    uint64_t original_message = 0xfedcba9876543210;
+int main(int argc, char* argv[]) {
+    if (argc != 3) {
+        std::cerr << "Usage: program <PRIME> <GENERATOR>" << std::endl;
+        return 1;
+    }
 
-    uint64_t original_output = operation(original_state, original_message);
+    uint64_t PRIME = std::strtoull(argv[1], nullptr, 0);
+    uint64_t GENERATOR = std::strtoull(argv[2], nullptr, 0);
+
+    // Random number generation
+    std::random_device rd;
+    std::mt19937_64 eng(rd());
+    std::uniform_int_distribution<uint64_t> distr;
+
+    uint64_t original_state = distr(eng);
+    uint64_t original_message = distr(eng);
+
+    std::cout << "Original State: " << std::hex << original_state << std::endl;
+    std::cout << "Original Message: " << std::hex << original_message << std::endl;
+
+    uint64_t original_output = operation(original_state, original_message, GENERATOR, PRIME);
 
     std::cout << "Bit changes in output due to single bit flip in input:\n";
 
     // For each bit in the state
     for (int i = 0; i < 64; i++) {
         uint64_t altered_state = original_state ^ (1ULL << i);
-        uint64_t altered_output = operation(altered_state, original_message);
+        uint64_t altered_output = operation(altered_state, original_message, GENERATOR, PRIME);
         uint64_t output_difference = original_output ^ altered_output;
         std::cout << "State bit " << i << ": " << std::bitset<64>(output_difference) << '\n';
     }
@@ -31,7 +43,7 @@ int main() {
     // For each bit in the message
     for (int i = 0; i < 64; i++) {
         uint64_t altered_message = original_message ^ (1ULL << i);
-        uint64_t altered_output = operation(original_state, altered_message);
+        uint64_t altered_output = operation(original_state, altered_message, GENERATOR, PRIME);
         uint64_t output_difference = original_output ^ altered_output;
         std::cout << "Message bit " << i << ": " << std::bitset<64>(output_difference) << '\n';
     }

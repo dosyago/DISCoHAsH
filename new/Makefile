@@ -4,10 +4,13 @@ CXXFLAGS = -std=c++17 -march=native -O3
 OUTPUT_DIR = bin
 
 
-all: $(OUTPUT_DIR) gen els ngen inv ava ava2 ava3 avasearch avsearch2
+all: $(OUTPUT_DIR) gen els ngen inv ava ava2 ava3 avasearch avsearch2 avsearch3
 
 $(OUTPUT_DIR):
 	mkdir -p $(OUTPUT_DIR)
+
+avsearch3: avsearch3.cpp
+	$(CXXP) $(CXXFLAGS) -fopenmp -o $(OUTPUT_DIR)/avsearch3 avsearch3.cpp
 
 avsearch2: avsearch2.cpp
 	$(CXXP) $(CXXFLAGS) -fopenmp -o $(OUTPUT_DIR)/avsearch2 avsearch2.cpp
