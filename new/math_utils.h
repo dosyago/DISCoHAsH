@@ -159,6 +159,40 @@ namespace math_utils {
     }
   }
 
+  uint64_t find_32_bit_generator(const std::vector<uint64_t>& factors, uint64_t p) {
+    std::cout << "Searching for a generator modulo " << p << "..." << std::endl;
+
+    std::mt19937_64 rng(std::random_device{}());
+    std::uniform_int_distribution<uint32_t> dist(2, ceil(sqrt(p)));
+
+    uint64_t g;
+    bool is_generator;
+    while (true) {
+      g = dist(rng);
+      std::cout << "Trying candidate: " << g << std::endl;
+      is_generator = true;
+
+      for (uint64_t q : factors) {
+        uint64_t dividend = (p - 1) / q;
+        uint64_t congruence = math_utils::mod_pow(g, dividend, p);
+        
+        // Display the details of the test
+        std::cout << "(" << g << ")^((" << p - 1 << ") / " << q << " = " << dividend << ") === " << congruence << " (mod " << p << ")" << std::endl;
+        
+        if (congruence == 1) {
+          std::cout << "Candidate " << g << " failed." << std::endl;
+          is_generator = false;
+          break;
+        }
+      }
+
+      if (is_generator) {
+        std::cout << "Candidate " << g << " is a successful generator!" << std::endl;
+        return g;
+      }
+    }
+  }
+
   uint64_t find_first_generator(const std::vector<uint64_t>& factors, uint64_t p) {
     for (uint64_t g = 2; g < p; g++) {
       bool is_generator = true;
@@ -189,11 +223,12 @@ namespace math_utils {
       std::cout << "Using the random approach to find generator." << std::endl;
       return find_generator(factors, p);
     } else {
-      std::cout << "Using the sequential approach to find generator." << std::endl;
-      return find_first_generator(factors, p);
+      std::cout << "Using the random approach to find a 32-bit generator." << std::endl;
+      return find_32_bit_generator(factors, p);
+      //std::cout << "Using the sequential approach to find generator." << std::endl;
+      //return find_first_generator(factors, p);
     }
   }
-
 
   inline std::string uint128_to_string(__uint128_t value) {
     std::string result;
@@ -224,6 +259,4 @@ namespace math_utils {
     return miller_rabin_test(n, 20);
   }
 }
-
-
 

@@ -108,7 +108,7 @@ int main() {
   std::mt19937_64 gen(rd());
   std::uniform_int_distribution<uint64_t> dist(1ULL << 63, ((1ULL << 63) - 1) + (1ULL << 63));
 
-  const int num_samples = 10000;
+  const int num_samples = 25000;
 
   std::vector<AvalancheStatistics> results;
 
@@ -140,16 +140,16 @@ int main() {
 
   std::ofstream file(filename);
   for (const auto &res : results) {
-    file << "P: " << res.P << ", G: " << res.G << ", Zero bits %: " << res.zero_bits_percentage;
-    file << ", Mean: " << res.mean << ", Stddev: " << res.stddev << ", Entropy: " << res.entropy << "\n";
+    file << "P: " << res.P << " G: " << res.G << " Zero bits %: " << res.zero_bits_percentage;
+    file << " Mean: " << res.mean << " Stddev: " << res.stddev << " Entropy: " << res.entropy << "\n";
     file << "Histogram:\n" << generate_histogram_string(res.histogram, 10000000) << "\n";
     file << "Bit position changes:\n" << generate_bit_position_histogram_string(res.bit_position_changes, 10000000) << "\n";
   }
 
   std::cout << "Top 50 results:\n";
   for (int i = 0; i < 50 && i < results.size(); i++) {
-    std::cout << "P: " << results[i].P << ", G: " << results[i].G << ", Zero bits %: " << results[i].zero_bits_percentage;
-    std::cout << ", Mean: " << results[i].mean << ", Stddev: " << results[i].stddev << ", E: " << results[i].entropy << "\n";
+    std::cout << "P: " << results[i].P << " G: " << results[i].G << " Zero bits %: " << results[i].zero_bits_percentage;
+    std::cout << " Mean: " << results[i].mean << " Stddev: " << results[i].stddev << " E: " << results[i].entropy << "\n";
   }
 
   return 0;
