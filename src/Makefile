@@ -17,8 +17,8 @@ discotool: discohash.cpp discotool.cpp
 cryptosum: cryptohash.cpp cryptosum.cpp  
 	$(CXX) $(CXXFLAGS) -o $(OUTPUT_DIR)/cryptosum cryptosum.cpp cryptohash.cpp
 
-cryptotool: cryptohash.cpp cryptotool.cpp 
-	$(CXX) $(CXXFLAGS) -o $(OUTPUT_DIR)/cryptotool cryptotool.cpp cryptohash.cpp
+cryptotool: newhash.cpp cryptohash.cpp cryptotool.cpp 
+	$(CXX) $(CXXFLAGS) -o $(OUTPUT_DIR)/cryptotool cryptotool.cpp cryptohash.cpp newhash.cpp
 
 clean:
 	rm -rf $(OUTPUT_DIR)
