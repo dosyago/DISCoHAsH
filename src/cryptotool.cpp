@@ -5,8 +5,11 @@
 #include <stdexcept>
 #include <string>
 #include <cstring>
+#include <chrono>
+#include <iomanip>
 
 #include "discohash.h"
+#include "newhash.h"
 
 #ifdef _WIN32
 #include <io.h>
@@ -43,7 +46,7 @@ int main(int argc, char **argv) {
   std::string outputFilename;
   bool infiniteMode = false;
   FILE* outputFile = stdout; // Default to stdout
-  int outputWords = 4;
+  int outputWords = 2;
 
   // Handle flags and arguments
   for (int i = 1; i < argc; i++) {
@@ -82,7 +85,12 @@ int main(int argc, char **argv) {
   }
 
   bool readFromFile = !filename.empty() && filename != "-";
+
+  std::chrono::time_point<std::chrono::high_resolution_clock> start, end;
+  std::chrono::duration<double> elapsed_seconds;
+
   if (readFromFile) {
+    start = std::chrono::high_resolution_clock::now();
     readFileToBuffer(filename, buffer);
   } else {
     readStdinToBuffer(buffer);
@@ -95,7 +103,7 @@ int main(int argc, char **argv) {
   if (infiniteMode) {
     std::vector<uint8_t> input = buffer;
     while (true) {
-      <128, false>newhash(input.data(), input.size(), 0, hash.data());
+      newhash<128, false>(input.data(), input.size(), 0, hash.data());
       std::fwrite(hash.data(), sizeof(uint64_t), 2, outputFile);
       std::fflush(outputFile); // make sure it's written
       // Reuse the same memory buffer as input for the next iteration
@@ -103,11 +111,21 @@ int main(int argc, char **argv) {
       std::memcpy(input.data() + 2 * sizeof(uint64_t), hash.data(), sizeof(uint64_t) * 2);
     }
   } else {
-    <128, false>newhash(buffer.data(), buffer.size(), 0, hash.data());
+    newhash<128, false>(buffer.data(), buffer.size(), 0, hash.data());
+    end = std::chrono::high_resolution_clock::now();
+    elapsed_seconds = end - start;
     for (int i = 0; i < outputWords; ++i) {
       fprintf(outputFile, "%016" PRIx64, hash[i]);
     }
-    fprintf(outputFile, " %s\n", filename.c_str());
+    if (readFromFile) {
+      // Compute the throughput in GB/s
+      double file_size_gb = static_cast<double>(buffer.size()) / (1024 * 1024 * 1024);
+      double throughput_gb_s = file_size_gb / elapsed_seconds.count();
+      fprintf(outputFile, "  %s (%.2f seconds, %.2f GB, %.2f GB/s)\n", filename.c_str(),
+              elapsed_seconds.count(), file_size_gb, throughput_gb_s);
+    } else {
+      fprintf(outputFile, " %s\n", filename.c_str());
+    }
   }
 
   // Close the output file if it's not stdout

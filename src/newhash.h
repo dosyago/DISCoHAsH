@@ -2,7 +2,8 @@
 #include <cstdlib>
 #include <cstring>
 #include <cstdio>
-#include "Hashlib.h"
+#include "endian.h"
+#include "discohash.h"
 
 static const uint64_t P         = UINT64_C(  0xFFFFFFFFFFFFFFFF) - 58;
 static const uint64_t Q         = UINT64_C(13166748625691186689);
@@ -150,35 +151,3 @@ void newhash(const void* in, const size_t olen, const seed_t seed, void* out) {
   }
 }
 
-REGISTER_FAMILY(newhash,
-   $.src_url  = "https://github.com/dosyago/discohash",
-   $.src_status = HashFamilyInfo::SRC_STABLEISH
- );
-
-REGISTER_HASH(Newhash,
-   $.desc     = "Newhash (aka DiscoRainbow)",
-   $.impl_flags =
-     FLAG_IMPL_MULTIPLY_64_64   |
-     FLAG_IMPL_ROTATE       |
-     FLAG_IMPL_SLOW       |
-     FLAG_IMPL_LICENSE_MIT,
-   $.bits = 64,
-   $.verification_LE = 0x2972C52E,
-   $.verification_BE = 0x217A79E2,
-   $.hashfn_native   = newhash<64, false>,
-   $.hashfn_bswap  = newhash<64, true>
- );
-
-REGISTER_HASH(Newhash_128,
-   $.desc     = "Newhash (aka DiscoRainbow)",
-   $.impl_flags =
-     FLAG_IMPL_MULTIPLY_64_64   |
-     FLAG_IMPL_ROTATE       |
-     FLAG_IMPL_SLOW       |
-     FLAG_IMPL_LICENSE_MIT,
-   $.bits = 128,
-   $.verification_LE = 0xFD9BCADD,
-   $.verification_BE = 0xAF215EDF,
-   $.hashfn_native   = newhash<128, false>,
-   $.hashfn_bswap  = newhash<128, true>
- );
